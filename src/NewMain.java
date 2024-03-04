@@ -6,5 +6,7 @@ public class NewMain {
         System.out.println("Deltager B version 3");
 
 
+        System.out.println("Test");
+        System.out.println("Test2");
     }
 }
