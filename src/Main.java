@@ -7,5 +7,8 @@ public class Main {
         System.out.println("N");
         System.out.println("O");
         System.out.println("NAH");
+        System.out.println("Lebron");
+        System.out.println("is the goat!");
+
     }
 }
