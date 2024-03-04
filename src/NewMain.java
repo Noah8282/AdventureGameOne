@@ -7,6 +7,8 @@ public class NewMain {
 
 
         System.out.println("Test");
+        System.out.println("Test23");
+
 
         System.out.println("Test");
         System.out.println("Test2");
