@@ -27,7 +27,7 @@ public class Adventure {
 
         currentRoom = room1;
 
-        room1.setWest(room2);
+        room1.setEast(room2);
     }
 
 
