@@ -18,8 +18,6 @@ public class Adventure {
         createRooms();
         setRoomConnections();
         currentRoom = room1;
-
-
     }
 
 
