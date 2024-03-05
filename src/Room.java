@@ -46,4 +46,20 @@ public class Room {
     public String getDescription() {
         return description;
     }
+
+    public Room getEast() {
+        return east;
+    }
+
+    public Room getWest() {
+        return west;
+    }
+
+    public Room getNorth() {
+        return north;
+    }
+
+    public Room getSouth() {
+        return south;
+    }
 }
