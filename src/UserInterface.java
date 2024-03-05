@@ -2,30 +2,31 @@ import java.util.Scanner;
 
 public class UserInterface {
 
-
+    //ATTRIBUTES//
     Scanner scanner;
     String input;
     Adventure adventure;
 
+    //CONSTRUCTOR//
     public UserInterface() {
         scanner = new Scanner(System.in);
         scanner.useDelimiter("\n");
-        System.out.println("Game has started");
+        print("Game has started");
         adventure = new Adventure();
         startUI();
 
     }
 
 
-
+//METHOD TO START UI AND GAME//
     public void startUI() {
         do {
             input = scanner.next().toLowerCase();
             switch (input) {
-                case "go north","north","n" -> System.out.println(adventure.goDirection("n"));
-                case "go south","south","s" -> System.out.println(adventure.goDirection("s"));
-                case "go west","west","w" -> System.out.println(adventure.goDirection("w"));
-                case "go east","east","e" -> System.out.println(adventure.goDirection("e"));
+                case "go north","north","n" -> print(adventure.goDirection("n"));
+                case "go south","south","s" -> print(adventure.goDirection("s"));
+                case "go west","west","w" -> print(adventure.goDirection("w"));
+                case "go east","east","e" -> print(adventure.goDirection("e"));
                 case "help" -> System.out.println("""
                                 ////////// Instructions & Commands //////////
                                 Help: Get a list of instructions and commands
@@ -35,10 +36,10 @@ public class UserInterface {
                                 Go West/West/W: Go the the room in the western direction
                                 Go East/East/E: Go the the room in the northern direction
                                 Exit: Exit the game/program.""");
-                case "look" -> System.out.println(adventure.look());
+                case "look" -> print(adventure.look());
                 default -> {
                     if(!input.equals("exit")) {
-                        System.out.println("You did not type anything correct. Type help to get instructions.");
+                        print("You did not type anything correct. Type help to get instructions.");
                     }
                 }
             }
@@ -46,6 +47,11 @@ public class UserInterface {
 
             System.out.println();
         } while (!input.equals("exit"));
+    }
+
+    //Print method. Does System.out.println. Method to avoid doing sout every print statement.
+    private void print(String print) {
+        System.out.println(print);
     }
 
 
