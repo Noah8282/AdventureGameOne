@@ -15,15 +15,15 @@ public class Adventure {
 
     public Adventure() {
         //Create rooms
-        room1 = new Room("Room 1", "");
-        room2 = new Room("Room 2", "");
-        room3 = new Room("Room 3", "");
-        room4 = new Room("Room 4", "");
-        room5 = new Room("Room 5", "");
-        room6 = new Room("Room 6", "");
-        room7 = new Room("Room 7", "");
-        room8 = new Room("Room 8", "");
-        room9 = new Room("Room 9", "");
+        room1 = new Room("Room 1", "Room with no distinct features, except two doors");
+        room2 = new Room("Room 2", "Bright Room with two doors");
+        room3 = new Room("Room 3", "A lightly lit room, with two doors");
+        room4 = new Room("Room 4", "A very dark room, with two doors");
+        room5 = new Room("Room 5", "A very quiet room, with two door");
+        room6 = new Room("Room 6", "A very smelly room, with two doors");
+        room7 = new Room("Room 7", "A slightly dark room, with two doors");
+        room8 = new Room("Room 8", "A room with no distinct feature, that has two doors");
+        room9 = new Room("Room 9", "A lightly lit room, with two doors");
 
         currentRoom = room1;
 
