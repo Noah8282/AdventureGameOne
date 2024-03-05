@@ -15,15 +15,15 @@ public class Adventure {
 
     public Adventure() {
         //Create rooms
-        room1 = new Room("Room 1","");
-        room2 = new Room("Room 2","");
-        room3 = new Room("Room 3","");
-        room4 = new Room("Room 4","");
-        room5 = new Room("Room 5","");
-        room6 = new Room("Room 6","");
-        room7 = new Room("Room 7","");
-        room8 = new Room("Room 8","");
-        room9 = new Room("Room 9","");
+        room1 = new Room("Room 1", "");
+        room2 = new Room("Room 2", "");
+        room3 = new Room("Room 3", "");
+        room4 = new Room("Room 4", "");
+        room5 = new Room("Room 5", "");
+        room6 = new Room("Room 6", "");
+        room7 = new Room("Room 7", "");
+        room8 = new Room("Room 8", "");
+        room9 = new Room("Room 9", "");
 
         currentRoom = room1;
 
@@ -45,12 +45,12 @@ public class Adventure {
         room7.setEast(room8);
         room4.setSouth(room7);
         room4.setNorth(room1);
+    }
+        public String look () {
+            return currentRoom.getDescription();
+
+        }
+
 
     }
 
-
-
-
-
-
-}
