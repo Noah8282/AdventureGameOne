@@ -27,7 +27,6 @@ public class Adventure {
 
         currentRoom = room1;
 
-
         room1.setEast(room2);
         room1.setSouth(room2);
         room2.setWest(room1);
@@ -46,11 +45,27 @@ public class Adventure {
         room4.setSouth(room7);
         room4.setNorth(room1);
     }
-        public String look () {
-            return currentRoom.getDescription();
-
-        }
 
 
+    public String look () {
+        return currentRoom.getName() + ": "+ currentRoom.getDescription();
     }
+
+
+    public String goDirection(String dir) {
+        if (dir.equals("w") && currentRoom.getWest() != null) {
+            currentRoom = currentRoom.getWest();
+        } else if (dir.equals("e") && currentRoom.getEast() != null) {
+            currentRoom = currentRoom.getEast();
+        } else if (dir.equals("n") && currentRoom.getNorth() != null) {
+            currentRoom = currentRoom.getNorth();
+        } else if (dir.equals("s") && currentRoom.getSouth() != null) {
+            currentRoom = currentRoom.getSouth();
+        } else {
+            return "you cannot go that way";
+        }
+        return look();
+    }
+
+}
 
