@@ -12,7 +12,7 @@ public class Adventure {
     Room room9;
     Room currentRoom;
 
-    
+
     public Adventure() {
         //Create rooms
         room1 = new Room("Room 1","");
@@ -27,6 +27,9 @@ public class Adventure {
 
         currentRoom = room1;
 
-
+        room1.setWest(room2);
     }
+
+
+
 }
