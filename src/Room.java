@@ -39,5 +39,11 @@ public class Room {
         this.south = south;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public String getDescription() {
+        return description;
+    }
 }

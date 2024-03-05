@@ -16,8 +16,6 @@ public class UserInterface {
     /*
     West = 1
     North = 2
-
-
      */
 
     public void startUI() {
