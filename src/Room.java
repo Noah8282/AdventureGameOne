@@ -32,17 +32,24 @@ public class Room {
     }
 
     public void setWest(Room west) {
-        if() {
-
+        if(this.west != west) {
+            this.west = west;
+            west.setEast(this);
         }
     }
 
     public void setNorth(Room north) {
-        this.north = north;
+        if(this.north != north) {
+            this.north = north;
+            west.setSouth(this);
+        }
     }
 
     public void setSouth(Room south) {
-        this.south = south;
+        if(this.south != south) {
+            this.south = south;
+            west.setNorth(this);
+        }
     }
 
     public String getName() {
