@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Map {
 
     private Room room1;
@@ -13,6 +15,7 @@ public class Map {
     public Map() {
         createRooms();
         setRoomConnections();
+        randomizeLocks();
     }
 
     private void createRooms() {
@@ -44,9 +47,22 @@ public class Map {
         return room1;
     }
 
-    public void RandomizeLocks() {
-        for (int i = 0; i < 4 ; i++) {
-            System.out.println(i);
+    public void randomizeLocks() {
+        Random rn = new Random();
+        Room[] roomList = {room1, room2, room3, room4, room5, room6, room7, room8, room9};
+        for (Room room : roomList) {
+            if(rn.nextInt(4) == 1) {
+                room.lockWest();
+            }
+            if(rn.nextInt(4) == 1) {
+                room.lockEast();
+            }
+            if(rn.nextInt(4) == 1) {
+                room.lockSouth();
+            }
+            if(rn.nextInt(4) == 1) {
+                room.lockWest();
+            }
         }
 
 
