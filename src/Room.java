@@ -4,7 +4,9 @@ public class Room {
     //Name of the room
     private String name;
     //Description of room and rooms contents.
-    private String description;
+    private String shortDesc;
+    private String longDesc;
+
 
     //The 4 neighbouring rooms. If null then there is no room to that orientation.
     private Room east;
@@ -12,15 +14,26 @@ public class Room {
     private Room north;
     private Room south;
 
+    //Lock Status directions
+    private boolean lockedEast;
+    private boolean lockedWest;
+    private boolean lockedNorth;
+    private boolean lockedSouth;
+
 
     ////////// CONSTRUCTOR //////////
-    public Room(String name, String description) {
+    public Room(String name, String shortDesc, String longDesc) {
         this.name = name;
-        this.description = description;
+        this.shortDesc = shortDesc;
+        this.longDesc = longDesc;
         east = null;
         west = null;
         north = null;
         south = null;
+        lockedEast = false;
+        lockedWest = false;
+        lockedNorth = false;
+        lockedSouth = false;
     }
 
     public void setEast(Room east) {
@@ -56,8 +69,12 @@ public class Room {
         return name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getLongDesc() {
+        return longDesc;
+    }
+
+    public String getShortDesc() {
+        return shortDesc;
     }
 
     public Room getEast() {
@@ -74,5 +91,21 @@ public class Room {
 
     public Room getSouth() {
         return south;
+    }
+
+    public void lockEast() {
+        lockedEast = true;
+    }
+
+    public void lockWest() {
+        lockedWest = true;
+    }
+
+    public void lockNorth() {
+        lockedNorth = true;
+    }
+
+    public void lockSouth() {
+        lockedSouth = true;
     }
 }
