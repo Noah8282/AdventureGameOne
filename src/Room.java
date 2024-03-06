@@ -41,14 +41,14 @@ public class Room {
     public void setNorth(Room north) {
         if(this.north != north) {
             this.north = north;
-            west.setSouth(this);
+            north.setSouth(this);
         }
     }
 
     public void setSouth(Room south) {
         if(this.south != south) {
             this.south = south;
-            west.setNorth(this);
+            south.setNorth(this);
         }
     }
 

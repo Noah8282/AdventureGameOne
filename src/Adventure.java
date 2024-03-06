@@ -54,22 +54,14 @@ public class Adventure {
     }
     private void setRoomConnections() {
         room1.setEast(room2);
-        room1.setSouth(room2);
-        room2.setWest(room1);
+        room1.setSouth(room4);
         room2.setEast(room3);
-        room3.setWest(room2);
         room3.setSouth(room6);
-        room6.setNorth(room3);
         room6.setSouth(room9);
-        room9.setNorth(room6);
         room9.setWest(room8);
         room8.setNorth(room5);
-        room5.setSouth(room8);
         room8.setWest(room7);
         room7.setNorth(room4);
-        room7.setEast(room8);
-        room4.setSouth(room7);
-        room4.setNorth(room1);
     }
 
 }
