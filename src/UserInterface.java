@@ -23,6 +23,7 @@ public class UserInterface {
     //METHOD TO START UI AND GAME//
     public void startUI() {
         do {
+            print("What do you want to do?");
             input = scanner.next().toLowerCase();
             switch (input) {
                 case "go north", "north", "n" -> print(adventure.goDirection("n"));
@@ -30,6 +31,7 @@ public class UserInterface {
                 case "go west", "west", "w" -> print(adventure.goDirection("w"));
                 case "go east", "east", "e" -> print(adventure.goDirection("e"));
                 case "help" -> menu();
+                case "unlock" -> unlockUI();
                 case "look" -> print(adventure.look());
                 default -> {
                     if (!input.equals("exit")) {
@@ -51,12 +53,31 @@ public class UserInterface {
                 ////////// Instructions & Commands //////////
                 Help: Get a list of instructions and commands
                 Look: Get name and description of the room you are in.
+                Unlock: Unlock a door
                 Go North/North/N: Go the the room in the northern direction
                 Go South/South/s: Go the the room in the southern direction
                 Go West/West/W: Go the the room in the western direction
                 Go East/East/E: Go the the room in the northern direction
                 Exit: Exit the game/program.
                 """);
+    }
+
+    private void unlockUI() {
+        print("""
+                ////////// Type following to unlock //////////
+                Unlock North/North/N: Go the the room in the northern direction
+                Unlock South/South/s: Go the the room in the southern direction
+                Unlock West/West/W: Go the the room in the western direction
+                Unlock East/East/E: Go the the room in the northern direction
+                """);
+        input = scanner.next().toLowerCase();
+        switch (input) {
+            case "unlock north", "go north", "north", "n" -> print(adventure.unLock("n"));
+            case "unlock south", "go south", "south", "s" -> print(adventure.unLock("s"));
+            case "unlock west", "go west", "west", "w" -> print(adventure.unLock("w"));
+            case "unlock east", "go east", "east", "e" -> print(adventure.unLock("e"));
+            default -> print("That was not a valid input. Please try again");
+        }
     }
 
 

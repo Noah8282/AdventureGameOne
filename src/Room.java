@@ -108,4 +108,40 @@ public class Room {
     public void lockSouth() {
         lockedSouth = true;
     }
+
+    public void unlockEast() {
+        lockedEast = false;
+    }
+
+    public void unlockWest() {
+        lockedWest = false;
+    }
+
+    public void unlockNorth() {
+        lockedNorth = false;
+    }
+
+    public void unlockSouth() {
+        lockedSouth = false;
+    }
+
+
+
+    public boolean isLockedEast() {
+        return lockedEast;
+    }
+
+    public boolean isLockedWest() {
+        return lockedWest;
+    }
+
+    public boolean isLockedNorth() {
+        return lockedNorth;
+    }
+
+    public boolean isLockedSouth() {
+        return lockedSouth;
+    }
+
+
 }

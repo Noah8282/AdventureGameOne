@@ -17,6 +17,10 @@ public class Adventure {
         return player.look();
     }
 
+    public String unLock(String direction) {
+        return player.unLock(direction);
+    }
+
 
 }
 

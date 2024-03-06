@@ -51,17 +51,17 @@ public class Map {
         Random rn = new Random();
         Room[] roomList = {room1, room2, room3, room4, room5, room6, room7, room8, room9};
         for (Room room : roomList) {
-            if(rn.nextInt(4) == 1) {
+            if(rn.nextInt(4) == 1 && room.getWest() != null) {
                 room.lockWest();
             }
-            if(rn.nextInt(4) == 1) {
+            if(rn.nextInt(4) == 1 && room.getEast() != null) {
                 room.lockEast();
             }
-            if(rn.nextInt(4) == 1) {
+            if(rn.nextInt(4) == 1 && room.getSouth() != null) {
                 room.lockSouth();
             }
-            if(rn.nextInt(4) == 1) {
-                room.lockWest();
+            if(rn.nextInt(4) == 1 && room.getNorth() != null) {
+                room.lockNorth();
             }
         }
 
