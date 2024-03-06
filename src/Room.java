@@ -24,11 +24,17 @@ public class Room {
     }
 
     public void setEast(Room east) {
-        this.east = east;
+        if(this.east != east) {
+            this.east = east;
+            east.setWest(this);
+        }
+
     }
 
     public void setWest(Room west) {
-        this.west = west;
+        if() {
+
+        }
     }
 
     public void setNorth(Room north) {

@@ -37,8 +37,6 @@ public class UserInterface {
                     }
                 }
             }
-
-
             System.out.println();
         } while (!input.equals("exit"));
     }
