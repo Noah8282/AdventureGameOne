@@ -12,7 +12,7 @@ public class Player {
         lockChecked = new HashSet<>();
         this.currentRoom = firstRoom;
     }
-
+n
     public String look() {
         StringBuilder roomDescription = new StringBuilder(currentRoom.getName() + ": " + currentRoom.getLongDesc());
         ArrayList<Item> roomItems = currentRoom.getItems();
