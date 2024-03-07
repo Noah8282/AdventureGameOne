@@ -14,7 +14,19 @@ public class Player {
     }
 
     public String look() {
-        return currentRoom.getName() + ": " + currentRoom.getLongDesc();
+        StringBuilder roomDescription = new StringBuilder(currentRoom.getName() + ": " + currentRoom.getLongDesc());
+        ArrayList<Item> roomItems = currentRoom.getItems();
+
+        if (roomItems.isEmpty()) {
+            roomDescription.append("\nThere are no items in this room.");
+        } else {
+            roomDescription.append("\nItems in the room:");
+            for (Item item : roomItems) {
+                roomDescription.append("\n- ").append(item.getLongName());
+            }
+        }
+
+        return roomDescription.toString();
     }
 
 
