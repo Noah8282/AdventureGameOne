@@ -1,4 +1,11 @@
 public class Room {
+     private String description;
+        private ArrayList<Item> items;
+
+        public Room(String description) {
+            this.description = description;
+            items = new ArrayList<>();
+        }
 
     ////////// ATTRIBUTES //////////
     //Name of the room
@@ -144,6 +151,20 @@ public class Room {
     }
 
 
+    public void addItem(Item item) {
+        items.add(item);
+    }
 
+    public void removeItem(Item item) {
+        items.remove(item);
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 
 }
