@@ -182,5 +182,21 @@ public class Room {
         items.add(hammer);
         items.add(shovel);
         items.add(sword);
+
+// Det der står herned er bare en anden måde vi måske kan lave Arraylist(Bare en anbefaling)
+        String[] Item = new String [3];
+        Item [0] = "lamp";
+        Item [1] = "key";
+        Item [2] = "hammer";
+
+
+        System.out.println(Item [1]);
+        ArrayList ItemList = new ArrayList ();
+        ItemList.add("lamp");
+        ItemList.add("key");
+        ItemList.add("hammer");
+        System.out.println(ItemList);
+
+
     }
 }
