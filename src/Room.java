@@ -1,12 +1,7 @@
 import java.util.ArrayList;
 public class Room {
      private String description;
-        private ArrayList<Item> items = new ArrayList<Item>();
-        public ArrayList<Item> getItem() {
-            return Item;
-
-
-        }
+        private ArrayList<Item> items;
 
         public Room(String description) {
             this.description = description;
