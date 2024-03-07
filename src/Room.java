@@ -168,4 +168,13 @@ public class Room {
         return description;
     }
 
+    public void addInitialItems() {
+        // Tilføj de ønskede genstande til dette rum ved oprettelse
+        Item lamp = new Item("A shiny brass lamp", "lamp");
+        Item key = new Item("A small rusty key", "key");
+
+        // Tilføj genstande til rummets liste over genstande
+        items.add(lamp);
+        items.add(key);
+    }
 }
