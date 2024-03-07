@@ -29,7 +29,6 @@ public class Map {
         room8 = new Room("Room 8", "A room with no distinct feature, that has two doors","When you enter this room, a feeling deju vu overcomes you. This room has no distinct features, just like the first room you woke up in. This room, unlike most others, has three doors");
         room9 = new Room("Room 9", "A lightly lit room, with two doors","As you enter the room, you are met with a dark room that a small light that lightly illuminates the room. This room also has two doors");
     }
-
     private void setRoomConnections() {
         room1.setEast(room2);
         room1.setSouth(room4);
@@ -64,8 +63,7 @@ public class Map {
                 room.lockNorth();
             }
         }
-
-
+       public void addItemsToRoom;
     }
 
 }

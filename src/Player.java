@@ -66,13 +66,15 @@ public class Player {
 
         return "The door has been unlocked!";
 
-        public class Player {
-            private Room currentRoom;
-            private ArrayList<Item> inventory;
-
-            public Player(Room startingRoom) {
-                currentRoom = startingRoom;
-                inventory = new ArrayList<>();
+//        public class Player {
+//            private Room currentRoom;
+//            private ArrayList<Item> inventory;
+//
+//
+//
+//            public Player(Room startingRoom) {
+//                currentRoom = startingRoom;
+//                inventory = new ArrayList<>();
             }
 
             public void setCurrentRoom(Room room) {
@@ -83,20 +85,20 @@ public class Player {
                 return currentRoom;
             }
 
-            public void takeItem(Item item) {
-                currentRoom.removeItem(item);
-                inventory.add(item);
-            }
-
-            public void dropItem(Item item) {
-                inventory.remove(item);
-                currentRoom.addItem(item);
-            }
-
-            public ArrayList<Item> getInventory() {
-                return inventory;
-            }
-        }
+//            public void takeItem(Item item) {
+//                currentRoom.removeItem(item);
+//                inventory.add(item);
+//            }
+//
+//            public void dropItem(Item item) {
+//                inventory.remove(item);
+//                currentRoom.addItem(item);
+//            }
+//
+//            public ArrayList<Item> getInventory() {
+//                return inventory;
+//            }
+//        }
 
 
 
@@ -106,7 +108,7 @@ public class Player {
 
 
 
-}
+
 
 
 

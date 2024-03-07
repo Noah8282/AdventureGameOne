@@ -172,9 +172,15 @@ public class Room {
         // Tilføj de ønskede genstande til dette rum ved oprettelse
         Item lamp = new Item("A shiny brass lamp", "lamp");
         Item key = new Item("A small rusty key", "key");
+        Item hammer = new Item("A big hammer", "hammer");
+        Item shovel = new Item("A shovel", "shovel");
+        Item sword = new Item("A shiny sword", "sword");
 
         // Tilføj genstande til rummets liste over genstande
         items.add(lamp);
         items.add(key);
+        items.add(hammer);
+        items.add(shovel);
+        items.add(sword);
     }
 }
