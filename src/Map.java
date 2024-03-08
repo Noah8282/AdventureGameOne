@@ -39,7 +39,6 @@ public class Map {
         room8.setNorth(room5);
         room8.setWest(room7);
         room7.setNorth(room4);
-
     }
 
     public Room getFirstRoom() {
@@ -63,7 +62,6 @@ public class Map {
                 room.lockNorth();
             }
         }
-       public void addItemsToRoom;
     }
 
 }

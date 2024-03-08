@@ -1,12 +1,9 @@
 import java.util.ArrayList;
-public class Room {
-     private String description;
-        private ArrayList<Item> items;
 
-        public Room(String description) {
-            this.description = description;
-            items = new ArrayList<>();
-        }
+public class Room {
+    private String description;
+    private ArrayList<Item> items;
+
 
     ////////// ATTRIBUTES //////////
     //Name of the room
@@ -31,6 +28,7 @@ public class Room {
 
     ////////// CONSTRUCTOR //////////
     public Room(String name, String shortDesc, String longDesc) {
+        items = new ArrayList<>();
         this.name = name;
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
@@ -45,7 +43,7 @@ public class Room {
     }
 
     public void setEast(Room east) {
-        if(this.east != east) {
+        if (this.east != east) {
             this.east = east;
             east.setWest(this);
         }
@@ -53,21 +51,21 @@ public class Room {
     }
 
     public void setWest(Room west) {
-        if(this.west != west) {
+        if (this.west != west) {
             this.west = west;
             west.setEast(this);
         }
     }
 
     public void setNorth(Room north) {
-        if(this.north != north) {
+        if (this.north != north) {
             this.north = north;
             north.setSouth(this);
         }
     }
 
     public void setSouth(Room south) {
-        if(this.south != south) {
+        if (this.south != south) {
             this.south = south;
             south.setNorth(this);
         }
@@ -134,7 +132,6 @@ public class Room {
     }
 
 
-
     public boolean isLockedEast() {
         return lockedEast;
     }
@@ -164,10 +161,6 @@ public class Room {
         return items;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public void addInitialItems() {
         // Tilføj de ønskede genstande til dette rum ved oprettelse
         Item lamp = new Item("A shiny brass lamp", "lamp");
@@ -184,18 +177,20 @@ public class Room {
         items.add(sword);
 
 // Det der står herned er bare en anden måde vi måske kan lave Arraylist(Bare en anbefaling)
-        String[] Item = new String [3];
-        Item [0] = "lamp";
-        Item [1] = "key";
-        Item [2] = "hammer";
+        /*
+        String[] Item = new String[3];
+        Item[0] = "lamp";
+        Item[1] = "key";
+        Item[2] = "hammer";
 
 
-        System.out.println(Item [1]);
-        ArrayList ItemList = new ArrayList ();
+        System.out.println(Item[1]);
+        ArrayList ItemList = new ArrayList();
         ItemList.add("lamp");
         ItemList.add("key");
         ItemList.add("hammer");
         System.out.println(ItemList);
+        */
 
 
     }
