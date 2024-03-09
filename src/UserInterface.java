@@ -5,10 +5,13 @@ public class UserInterface {
     //ATTRIBUTES//
     private String input;
     private Adventure adventure;
+    Scanner scanner;
+
 
     //CONSTRUCTOR//
     public UserInterface() {
-
+        scanner = new Scanner(System.in);
+        scanner.useDelimiter("\n");
         adventure = new Adventure();
         asciiStart();
         menu();
@@ -21,7 +24,6 @@ public class UserInterface {
         do {
             print("What do you want to do?");
             input = getInput();
-            print(input);
             switch (input) {
                 case "go north", "north", "n" -> print(adventure.goDirection("n"));
                 case "go south", "south", "s" -> print(adventure.goDirection("s"));
@@ -53,6 +55,7 @@ public class UserInterface {
                 Help: Get a list of instructions and commands
                 Look: Get name and description of the room you are in.
                 Unlock: Unlock a door
+                Toggle: Switch the light on/off (toggle the light)
                 Go North/North/N: Go the the room in the northern direction
                 Go South/South/s: Go the the room in the southern direction
                 Go West/West/W: Go the the room in the western direction
@@ -93,11 +96,7 @@ public class UserInterface {
     }
 
     private String getInput() {
-        Scanner scanner = new Scanner(System.in);
-        scanner.useDelimiter("\n");
-        String input = scanner.next().toLowerCase().trim();
-        scanner.close();
-        return input;
+        return scanner.next().toLowerCase().trim();
     }
 
 

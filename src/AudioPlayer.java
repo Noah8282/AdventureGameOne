@@ -46,7 +46,6 @@ public class AudioPlayer {
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
                 clip.start();
 
-                System.out.println("Playing: " + audioFilePaths.get(room));
             } else {
                 System.out.println("Audio file not found: " + audioFilePaths.get(room));
             }
