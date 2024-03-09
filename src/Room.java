@@ -25,6 +25,9 @@ public class Room {
     private boolean lockedNorth;
     private boolean lockedSouth;
 
+    //Darkness status
+    private boolean dark;
+
 
     ////////// CONSTRUCTOR //////////
     public Room(String name, String shortDesc, String longDesc) {
@@ -40,35 +43,7 @@ public class Room {
         lockedWest = false;
         lockedNorth = false;
         lockedSouth = false;
-    }
-
-    public void setEast(Room east) {
-        if (this.east != east) {
-            this.east = east;
-            east.setWest(this);
-        }
-
-    }
-
-    public void setWest(Room west) {
-        if (this.west != west) {
-            this.west = west;
-            west.setEast(this);
-        }
-    }
-
-    public void setNorth(Room north) {
-        if (this.north != north) {
-            this.north = north;
-            north.setSouth(this);
-        }
-    }
-
-    public void setSouth(Room south) {
-        if (this.south != south) {
-            this.south = south;
-            south.setNorth(this);
-        }
+        dark = false;
     }
 
     public String getName() {
@@ -83,115 +58,82 @@ public class Room {
         return shortDesc;
     }
 
-    public Room getEast() {
-        return east;
+    public boolean isDark() {
+        return dark;
     }
 
-    public Room getWest() {
-        return west;
+    public void toggleDark() {
+        this.dark = !dark;
     }
 
-    public Room getNorth() {
-        return north;
+    public void setNextRoom(String dir, Room room) {
+        switch (dir) {
+            case "w" -> {
+                if (west != room) {
+                    west = room;
+                    west.setNextRoom("e",this);
+                }
+            }
+            case "e" -> {
+                if (east != room) {
+                    east = room;
+                    east.setNextRoom("w",this);
+                }
+            }
+            case "n" -> {
+                if (north != room) {
+                    north = room;
+                    north.setNextRoom("s",this);
+                }
+            }
+            case "s" -> {
+                if (south != room) {
+                    south = room;
+                    south.setNextRoom("n",this);
+                }
+            }
+            default -> throw new IllegalStateException("setNextRoom: Unexpected value: " + dir);
+        };
     }
 
-    public Room getSouth() {
-        return south;
+    public Room getNextRoom(String dir) {
+        return switch (dir) {
+            case "w" -> west;
+            case "e" -> east;
+            case "n" -> north;
+            case "s" -> south;
+            default -> throw new IllegalStateException("getNextRoom: Unexpected value: " + dir);
+        };
+
     }
 
-    public void lockEast() {
-        lockedEast = true;
+    public void unlockRoom(String dir) {
+        switch (dir) {
+            case "w" -> lockedWest = false;
+            case "e" -> lockedEast = false;
+            case "n" -> lockedNorth = false;
+            case "s" -> lockedSouth = false;
+            default -> throw new IllegalStateException("unlockRoom: Unexpected value: " + dir);
+        };
     }
 
-    public void lockWest() {
-        lockedWest = true;
+    public void lockRoom(String dir) {
+        switch (dir) {
+            case "w" -> lockedWest = true;
+            case "e" -> lockedEast = true;
+            case "n" -> lockedNorth = true;
+            case "s" -> lockedSouth = true;
+            default -> throw new IllegalStateException("lockRoom: Unexpected value: " + dir);
+        };
     }
 
-    public void lockNorth() {
-        lockedNorth = true;
-    }
-
-    public void lockSouth() {
-        lockedSouth = true;
-    }
-
-    public void unlockEast() {
-        lockedEast = false;
-    }
-
-    public void unlockWest() {
-        lockedWest = false;
-    }
-
-    public void unlockNorth() {
-        lockedNorth = false;
-    }
-
-    public void unlockSouth() {
-        lockedSouth = false;
-    }
-
-
-    public boolean isLockedEast() {
-        return lockedEast;
-    }
-
-    public boolean isLockedWest() {
-        return lockedWest;
-    }
-
-    public boolean isLockedNorth() {
-        return lockedNorth;
-    }
-
-    public boolean isLockedSouth() {
-        return lockedSouth;
-    }
-
-
-    public void addItem(Item item) {
-        items.add(item);
-    }
-
-    public void removeItem(Item item) {
-        items.remove(item);
-    }
-
-    public ArrayList<Item> getItems() {
-        return items;
-    }
-
-    public void addInitialItems() {
-        // Tilføj de ønskede genstande til dette rum ved oprettelse
-        Item lamp = new Item("A shiny brass lamp", "lamp");
-        Item key = new Item("A small rusty key", "key");
-        Item hammer = new Item("A big hammer", "hammer");
-        Item shovel = new Item("A shovel", "shovel");
-        Item sword = new Item("A shiny sword", "sword");
-
-        // Tilføj genstande til rummets liste over genstande
-        items.add(lamp);
-        items.add(key);
-        items.add(hammer);
-        items.add(shovel);
-        items.add(sword);
-
-// Det der står herned er bare en anden måde vi måske kan lave Arraylist(Bare en anbefaling)
-        /*
-        String[] Item = new String[3];
-        Item[0] = "lamp";
-        Item[1] = "key";
-        Item[2] = "hammer";
-
-
-        System.out.println(Item[1]);
-        ArrayList ItemList = new ArrayList();
-        ItemList.add("lamp");
-        ItemList.add("key");
-        ItemList.add("hammer");
-        System.out.println(ItemList);
-        */
-
-
+    public boolean isLocked(String dir) {
+        return switch (dir) {
+            case "w" -> lockedWest;
+            case "e" -> lockedEast;
+            case "n" -> lockedNorth;
+            case "s" -> lockedSouth;
+            default -> throw new IllegalStateException("isLocked: Unexpected value: " + dir);
+        };
     }
 }

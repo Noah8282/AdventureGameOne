@@ -3,10 +3,12 @@ public class Adventure {
     ////////// ATTRIBUTES //////////
     private Map map;
     private Player player;
+    private AudioPlayer wavPlayer;
 
     public Adventure() {
         map = new Map();
-        player = new Player(map.getFirstRoom());
+        wavPlayer = new AudioPlayer(map.getRoomList());
+        player = new Player(map.getFirstRoom(), wavPlayer);
     }
 
     public String goDirection(String direction) {
@@ -19,6 +21,14 @@ public class Adventure {
 
     public String unLock(String direction) {
         return player.unLock(direction);
+    }
+
+    public String toggleDark() {
+        return player.toggleDark();
+    }
+
+    public String teleport() {
+        return player.teleport();
     }
 
 

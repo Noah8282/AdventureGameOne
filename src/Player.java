@@ -1,21 +1,41 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Player {
     //Attribute
     private Room currentRoom;
     private Set<Room> lockChecked;
+    private Set<Room> visited;
+    private String lastDir;
+    private Room lastTeleport;
+    private AudioPlayer wavPlayer;
 
     //Constructor
-    public Player(Room firstRoom) {
+    public Player(Room firstRoom, AudioPlayer wavPlayer) {
+        this.wavPlayer = wavPlayer;
         lockChecked = new HashSet<>();
-        this.currentRoom = firstRoom;
+        visited = new HashSet<>();
+        currentRoom = firstRoom;
+        lastTeleport = firstRoom;
+        lastDir = "";
+        wavPlayer.startAudio(currentRoom);
     }
-    public String look() {
-        StringBuilder roomDescription = new StringBuilder(currentRoom.getName() + ": " + currentRoom.getLongDesc());
-        ArrayList<Item> roomItems = currentRoom.getItems();
 
+    public String look() {
+        String desc;
+        visited.add(currentRoom);
+        if(currentRoom.isDark()) {
+            return "The room is too dark to see anything. You can only go back the way you came.";
+        }
+
+        if(!visited.contains(currentRoom)) {
+            desc = currentRoom.getLongDesc();
+        } else {
+            desc = currentRoom.getShortDesc();
+        }
+
+
+        StringBuilder roomDescription = new StringBuilder(currentRoom.getName() + ": " + desc);
+        ArrayList<Item> roomItems = new ArrayList<>(List.of(new Item("hey", "hey")));
         if (roomItems.isEmpty()) {
             roomDescription.append("\nThere are no items in this room.");
         } else {
@@ -30,92 +50,69 @@ public class Player {
 
 
     public String goDirection(String dir) {
-        Room wantedDir = null;
-        boolean lockStatus = false;
-        switch (dir) {
-            case "w" -> {wantedDir = currentRoom.getWest(); lockStatus = currentRoom.isLockedWest();}
-            case "e" -> {wantedDir = currentRoom.getEast(); lockStatus = currentRoom.isLockedEast();}
-            case "n" -> {wantedDir = currentRoom.getNorth(); lockStatus = currentRoom.isLockedNorth();}
-            case "s" -> {wantedDir = currentRoom.getSouth(); lockStatus = currentRoom.isLockedSouth();}
+        if(currentRoom.isDark() && (!lastDir.equals(revertDir(dir)) || lastDir.isBlank())) {
+            return look();
         }
 
-        if(wantedDir == null) {
+
+        Room wantedDir = currentRoom.getNextRoom(dir);
+
+        if (wantedDir == null) {
             return "you cannot go that way";
         }
 
-        if(lockStatus) {
+        if (currentRoom.isLocked(dir)) {
             lockChecked.add(wantedDir);
             return "The door is locked! You can continue to explore, or type unlock to unlock the door!";
         }
 
         lockChecked.clear();
         currentRoom = wantedDir;
+        lastDir = dir;
+        currentRoom.unlockRoom(revertDir(lastDir));
+        wavPlayer.stopAudio();
+        wavPlayer.startAudio(currentRoom);
 
         return look();
     }
 
     public String unLock(String dir) {
-        Room wantedUnlock = null;
+        Room wantedUnlock = currentRoom.getNextRoom(dir);
 
-        switch (dir) {
-            case "w" -> wantedUnlock = currentRoom.getWest();
-            case "e" -> wantedUnlock = currentRoom.getEast();
-            case "n" -> wantedUnlock = currentRoom.getNorth();
-            case "s" -> wantedUnlock = currentRoom.getSouth();
-        }
-
-        if(!lockChecked.contains(wantedUnlock)) {
+        if (!lockChecked.contains(wantedUnlock)) {
             return "There is no knowlegde of a door being locked here.";
         }
 
-        switch (dir) {
-            case "w" -> currentRoom.unlockWest();
-            case "e" -> currentRoom.unlockEast();
-            case "n" -> currentRoom.unlockNorth();
-            case "s" -> currentRoom.unlockSouth();
-        }
+        currentRoom.unlockRoom(dir);
 
         return "The door has been unlocked!";
 
-//        public class Player {
-//            private Room currentRoom;
-//            private ArrayList<Item> inventory;
-//
-//
-//
-//            public Player(Room startingRoom) {
-//                currentRoom = startingRoom;
-//                inventory = new ArrayList<>();
-            }
-
-            public void setCurrentRoom(Room room) {
-                currentRoom = room;
-            }
-
-            public Room getCurrentRoom() {
-                return currentRoom;
-            }
-
-//            public void takeItem(Item item) {
-//                currentRoom.removeItem(item);
-//                inventory.add(item);
-//            }
-//
-//            public void dropItem(Item item) {
-//                inventory.remove(item);
-//                currentRoom.addItem(item);
-//            }
-//
-//            public ArrayList<Item> getInventory() {
-//                return inventory;
-//            }
-//        }
-
-
-
-
-
     }
+
+    public String toggleDark() {
+        currentRoom.toggleDark();
+        return look();
+    }
+
+    public String teleport() {
+        Room tempRoom = currentRoom;
+        currentRoom = lastTeleport;
+        lastTeleport = tempRoom;
+        return "xyzzy!\n"+look();
+    }
+
+
+    private String revertDir(String dir) {
+        return switch (dir) {
+            case "w" -> "e";
+            case "e" -> "w";
+            case "s" -> "n";
+            case "n" -> "s";
+            default -> throw new IllegalStateException("switchDir: Unexpected value: " + dir);
+        };
+    }
+
+}
 
 
 
