@@ -9,6 +9,9 @@ public class AudioPlayer {
     String filePath = "/resources/audio/audio";
     HashMap<Room, String> audioFilePaths;
     Clip clip;
+    private boolean musicEnabled = true;
+    private Room currentRoom;
+
     public AudioPlayer(Room[] roomList) {
         // Change this to the path of your WAV file
         audioFilePaths = new HashMap<>();
@@ -20,41 +23,60 @@ public class AudioPlayer {
 
 
     public void startAudio(Room room) {
+        currentRoom = room;
+
+        if (musicEnabled) {
+            try (InputStream is = getClass().getResourceAsStream(audioFilePaths.get(room))) {
+                AudioInputStream ais;
+                if (is == null) {
+                    System.out.println("ran");
+                    File newFilePath = new File("resources/" + audioFilePaths.get(room));
+                    ais = AudioSystem.getAudioInputStream(newFilePath);
+                } else {
+                    BufferedInputStream bis = new BufferedInputStream(is);
+                    ais = AudioSystem.getAudioInputStream(bis);
+                }
+
+                if (ais != null) {
+                    AudioFormat format = ais.getFormat();
+                    DataLine.Info info = new DataLine.Info(Clip.class, format);
+                    clip = (Clip) AudioSystem.getLine(info);
+                    clip.open(ais);
+                    clip.loop(Clip.LOOP_CONTINUOUSLY);
 
 
-
-
-
-        try (InputStream is = getClass().getResourceAsStream(audioFilePaths.get(room))) {
-            AudioInputStream ais;
-            if(is == null) {
-                System.out.println("ran");
-                File newFilePath = new File("resources/"+audioFilePaths.get(room));
-                ais = AudioSystem.getAudioInputStream(newFilePath);
-            } else {
-                BufferedInputStream bis = new BufferedInputStream(is);
-                ais = AudioSystem.getAudioInputStream(bis);
+                } else {
+                    System.out.println("Audio file not found: " + audioFilePaths.get(room));
+                }
+            } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+                System.out.println("Error playing the file: " + e.getMessage());
             }
-
-
-
-            if (ais != null) {
-                AudioFormat format = ais.getFormat();
-                DataLine.Info info = new DataLine.Info(Clip.class, format);
-                clip = (Clip) AudioSystem.getLine(info);
-                clip.open(ais);
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-                clip.start();
-
-            } else {
-                System.out.println("Audio file not found: " + audioFilePaths.get(room));
-            }
-        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
-            System.out.println("Error playing the file: " + e.getMessage());
         }
     }
 
-    public void stopAudio() {
-        clip.stop();
+    public boolean toggleAudio() {
+        if (musicEnabled) {
+            if (clip.isRunning()) {
+                clip.stop();
+            } else {
+                clip.start();
+            }
+        } else {
+            clip.stop();
+        }
+        return clip.isRunning();
     }
+
+    public String userToggleMusic() {
+        musicEnabled = !musicEnabled;
+        if (musicEnabled) {
+            startAudio(currentRoom);
+        } else {
+            toggleAudio();
+        }
+
+        return musicEnabled ? "Music has been enabled" : "Music has been disabled";
+    }
+
+
 }

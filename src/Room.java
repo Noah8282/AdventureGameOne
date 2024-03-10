@@ -136,4 +136,12 @@ public class Room {
             default -> throw new IllegalStateException("isLocked: Unexpected value: " + dir);
         };
     }
+
+    public void addItem(Item item) {
+        items.add(item);
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
 }

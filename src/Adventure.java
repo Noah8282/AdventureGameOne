@@ -31,6 +31,10 @@ public class Adventure {
         return player.teleport();
     }
 
+    public String userToggleMusic() {
+        return wavPlayer.userToggleMusic();
+    }
+
 
 }
 

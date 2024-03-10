@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Map {
@@ -12,14 +13,18 @@ public class Map {
     private Room room8;
     private Room room9;
     private Room[] roomList;
+    private ArrayList<Item> items;
 
     private Random rn;
     public Map() {
         rn = new Random();
+        items = new ArrayList<>();
         createRooms();
         setRoomConnections();
         randomizeLocks();
         randomizeDark();
+        createItems();
+        assignItemsRandomized();
     }
 
     private void createRooms() {
@@ -58,9 +63,9 @@ public class Map {
         return room1;
     }
 
-    public void randomizeLocks() {
+    private void randomizeLocks() {
         //25% chance of a locked door
-        final int MAX = 1;
+        final int MAX = 4;
         for (Room room : roomList) {
             if (rn.nextInt(MAX) == 0 && room.getNextRoom("w") != null) {
                 room.lockRoom("w");
@@ -76,13 +81,39 @@ public class Map {
             }
         }
     }
-    public void randomizeDark() {
+    private void randomizeDark() {
         for (Room room : roomList) {
             final int MAX = 3;
             if(rn.nextInt(MAX) == 0) {
                 room.toggleDark();
             }
         }
+    }
+
+    private void createItems() {
+        items.add(new Item("A shiny brass lamp"));
+        items.add(new Item("A heavy sword"));
+        items.add(new Item("A rusty axe"));
+        items.add(new Item("A hunters bow"));
+        items.add(new Item("A damaged helmet"));
+        items.add(new Item("A worn chestplate"));
+        items.add(new Item("A pierced set of leggings"));
+        items.add(new Item("A shiny pair of boots"));
+        items.add(new Item("A worn chestplate"));
+        items.add(new Item("A decaying bone"));
+        items.add(new Item("A bone potato"));
+    }
+
+    public void assignItemsRandomized() {
+        for (int i = 0; i < roomList.length; i++) {
+            for (Item item : items) {
+                if(rn.nextInt(5) == 0) {
+                    roomList[i].addItem(item);
+                }
+            }
+        }
+
+
     }
 
 

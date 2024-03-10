@@ -35,7 +35,7 @@ public class Player {
 
 
         StringBuilder roomDescription = new StringBuilder(currentRoom.getName() + ": " + desc);
-        ArrayList<Item> roomItems = new ArrayList<>(List.of(new Item("hey", "hey")));
+        ArrayList<Item> roomItems = currentRoom.getItems();
         if (roomItems.isEmpty()) {
             roomDescription.append("\nThere are no items in this room.");
         } else {
@@ -70,7 +70,7 @@ public class Player {
         currentRoom = wantedDir;
         lastDir = dir;
         currentRoom.unlockRoom(revertDir(lastDir));
-        wavPlayer.stopAudio();
+        wavPlayer.toggleAudio();
         wavPlayer.startAudio(currentRoom);
 
         return look();
