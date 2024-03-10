@@ -144,7 +144,6 @@ public class Player {
         for (Item item : inventory) {
             invString.append("- "+item.getLongName()+"\n");
         }
-
         return invString.toString();
 
     }

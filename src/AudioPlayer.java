@@ -54,7 +54,7 @@ public class AudioPlayer {
         }
     }
 
-    public boolean toggleAudio() {
+    public void toggleAudio() {
         if (clip != null) {
             if (musicEnabled && clip.isRunning()) {
                 clip.stop();
@@ -64,10 +64,12 @@ public class AudioPlayer {
                 clip.stop();
             }
         } else {
-            return false; // Assuming false indicates failure
+            return;
         }
 
-        return clip != null && clip.isRunning();
+        if (clip != null) {
+            clip.isRunning();
+        }
     }
 
     public String userToggleMusic() {
