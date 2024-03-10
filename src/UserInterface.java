@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -35,8 +38,13 @@ public class UserInterface {
                 case "toggle light","toggle","light" -> print(adventure.toggleDark());
                 case "xyzzy" -> print(adventure.teleport());
                 case "music" -> print(adventure.userToggleMusic());
+                case "inv","inventory","i" -> print(adventure.getInv());
                 default -> {
-                    if (!input.equals("exit")) {
+                    if(input.startsWith("pickup")) {
+                        print(itemHandling(true));
+                    } else if(input.startsWith("drop")) {
+                        print(itemHandling(false));
+                    } else if (!input.equals("exit")) {
                         print("You did not type anything correct. Type help to get instructions.");
                     }
                 }
@@ -52,15 +60,18 @@ public class UserInterface {
     private String menu() {
         return """
                 ////////// Instructions & Commands //////////
-                Help: Get a list of instructions and commands
-                Look: Get name and description of the room you are in.
-                Unlock w/e/n/s: Unlock a door
-                Toggle: Switch the light on/off (toggle the light)
-                Music: Toogle music on and off.
                 Go North/North/N: Go the the room in the northern direction
                 Go South/South/s: Go the the room in the southern direction
                 Go West/West/W: Go the the room in the western direction
                 Go East/East/E: Go the the room in the northern direction
+                Help: Get a list of instructions and commands
+                Look: Get name and description of the room you are in.
+                Unlock w/e/n/s: Unlock a door
+                Toggle: Switch the light on/off (toggle the light)
+                Inv: See your inventory
+                Pickup (name of item): Pickup an item.
+                Drop (name of item): Drop an item.
+                Music: Toogle music on and off.
                 Exit: Exit the game/program.
                 """;
     }
@@ -68,6 +79,17 @@ public class UserInterface {
     private String unlockHandling() {
         String[] splittedUnlockInput = input.trim().split(" ");
         return adventure.unLock(splittedUnlockInput[1]);
+    }
+
+    private String itemHandling(boolean pickUp) {
+        ArrayList<String> splittedPickUpInput = new ArrayList<>(List.of(input.trim().split(" ")));
+        splittedPickUpInput.remove(0);
+        if(pickUp) {
+            return adventure.pickUpItem(splittedPickUpInput);
+        } else {
+            return adventure.dropItem(splittedPickUpInput);
+        }
+
     }
 
     private String asciiStart() {

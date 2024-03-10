@@ -9,7 +9,7 @@ public class AudioPlayer {
     String filePath = "/resources/audio/audio";
     HashMap<Room, String> audioFilePaths;
     Clip clip;
-    private boolean musicEnabled = true;
+    private boolean musicEnabled = false;
     private Room currentRoom;
 
     public AudioPlayer(Room[] roomList) {
@@ -55,16 +55,19 @@ public class AudioPlayer {
     }
 
     public boolean toggleAudio() {
-        if (musicEnabled) {
-            if (clip.isRunning()) {
+        if (clip != null) {
+            if (musicEnabled && clip.isRunning()) {
                 clip.stop();
-            } else {
+            } else if (musicEnabled) {
                 clip.start();
+            } else {
+                clip.stop();
             }
         } else {
-            clip.stop();
+            return false; // Assuming false indicates failure
         }
-        return clip.isRunning();
+
+        return clip != null && clip.isRunning();
     }
 
     public String userToggleMusic() {

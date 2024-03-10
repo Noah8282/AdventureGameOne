@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Adventure {
 
     ////////// ATTRIBUTES //////////
@@ -26,6 +28,12 @@ public class Adventure {
     public String toggleDark() {
         return player.toggleDark();
     }
+    public String pickUpItem(ArrayList<String> input) {
+        return player.pickUpItem(input);
+    }
+    public String dropItem(ArrayList<String> input) {
+        return player.dropItem(input);
+    }
 
     public String teleport() {
         return player.teleport();
@@ -34,6 +42,11 @@ public class Adventure {
     public String userToggleMusic() {
         return wavPlayer.userToggleMusic();
     }
+
+    public String getInv() {
+        return player.getInv();
+    }
+
 
 
 }
