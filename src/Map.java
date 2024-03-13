@@ -16,6 +16,7 @@ public class Map {
     private ArrayList<Item> items;
 
     private Random rn;
+
     public Map() {
         rn = new Random();
         items = new ArrayList<>();
@@ -59,6 +60,7 @@ public class Map {
     public Room[] getRoomList() {
         return roomList;
     }
+
     public Room getFirstRoom() {
         return room1;
     }
@@ -81,10 +83,11 @@ public class Map {
             }
         }
     }
+
     private void randomizeDark() {
         for (Room room : roomList) {
             final int MAX = 3;
-            if(rn.nextInt(MAX) == 0) {
+            if (rn.nextInt(MAX) == 0) {
                 room.toggleDark();
             }
         }
@@ -107,7 +110,7 @@ public class Map {
     public void assignItemsRandomized() {
         for (int i = 0; i < roomList.length; i++) {
             for (Item item : items) {
-                if(rn.nextInt(5) == 0) {
+                if (rn.nextInt(5) == 0) {
                     roomList[i].addItem(item);
                 }
             }
@@ -116,6 +119,37 @@ public class Map {
 
     }
 
+    private void createItems() {
+        items.add(new Food("Apple", "a shiny apple", 10));
+        items.add(new Food("Banana", "a ripe banana", 15));
+        items.add(new Food("Bread", "a loaf of bread", 20));
+    }
 
+    public void assignItemsRandomized() {
+        for (int i = 0; i < roomList.length; i++) {
+            for (Item item : items) {
+                if (rn.nextInt(5) == 0) {
+                    roomList[i].addItem(item);
+                }
+            }
+        }
+    }
+
+    public void eatFood(String foodName) {
+        for (Room room : roomList) {
+            ArrayList<Item> roomItems = room.getItems();
+            for (Item item : roomItems) {
+                if (item instanceof Food && item.getLongName().equalsIgnoreCase(foodName)) {
+                    player.eat((Food) item);
+                    roomItems.remove(item);
+                    return;
+                }
+            }
+        }
+
+        System.out.println("No such food item found in the room.");
+
+
+    }
 
 }
