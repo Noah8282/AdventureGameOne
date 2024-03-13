@@ -204,7 +204,7 @@ public class Player {
 
     }
 
-    public String gainHealth(int health) {
+    private String gainHealth(int health) {
         int oldHealth = this.health;
         int healthDisplay = health;
         this.health += health;

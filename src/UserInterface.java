@@ -39,6 +39,7 @@ public class UserInterface {
                 case "xyzzy" -> print(adventure.teleport());
                 case "music" -> print(adventure.userToggleMusic());
                 case "inv","inventory","i" -> print(adventure.getInv());
+                case "health", "get health" -> print(adventure.getHealth());
                 default -> {
                     if(input.startsWith("pickup")) {
                         print(itemHandling(true));
