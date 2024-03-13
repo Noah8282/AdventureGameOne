@@ -104,7 +104,16 @@ public class Map {
         items.add(new Item("A shiny pair of boots"));
         items.add(new Item("A worn chestplate"));
         items.add(new Item("A decaying bone"));
-        items.add(new Item("A bone potato"));
+        items.add(new Food("A baked potato"));
+        items.add(new Food("A raw steak"));
+        items.add(new Food("A dry piece of pork"));
+        items.add(new Food("A half eaten apple"));
+        items.add(new Food("A half can of beans"));
+        items.add(new Food("a shiny apple"));
+        items.add(new Food( "a ripe banana"));
+        items.add(new Food("a loaf of bread"));
+
+        //"steak","pork","apple","beans"
     }
 
     public void assignItemsRandomized() {
@@ -119,23 +128,9 @@ public class Map {
 
     }
 
-    private void createItems() {
-        items.add(new Food("Apple", "a shiny apple", 10));
-        items.add(new Food("Banana", "a ripe banana", 15));
-        items.add(new Food("Bread", "a loaf of bread", 20));
-    }
 
-    public void assignItemsRandomized() {
-        for (int i = 0; i < roomList.length; i++) {
-            for (Item item : items) {
-                if (rn.nextInt(5) == 0) {
-                    roomList[i].addItem(item);
-                }
-            }
-        }
-    }
 
-    public void eatFood(String foodName) {
+    /*public void eatFood(String foodName) {
         for (Room room : roomList) {
             ArrayList<Item> roomItems = room.getItems();
             for (Item item : roomItems) {
@@ -150,6 +145,6 @@ public class Map {
         System.out.println("No such food item found in the room.");
 
 
-    }
+    }*/
 
 }

@@ -150,15 +150,20 @@ public class Player {
 
     }
 
-    public String dropItem(ArrayList<String> input) {
+    public String useItem(ArrayList<String> input) {
+        String msg = "";
         String itemName = "";
         ArrayList<Item> inventoryCopy = new ArrayList<>(inventory);
         for (String inputString : input) {
             for (Item item : inventoryCopy) {
                 if (item.getShortName().equalsIgnoreCase(inputString)) {
                     itemName = item.getLongName();
+                    if(input.get(0).equalsIgnoreCase("eat") && item instanceof Food) {
+                        msg = gainHealth(((Food) item).getHealthPoints())+" ";
+                    } else {
+                        currentRoom.addItem(item);
+                    }
                     inventory.remove(item);
-                    currentRoom.addItem(item);
                     break;
                 }
             }
@@ -168,27 +173,49 @@ public class Player {
             return "You do not have such and item in your inventory.";
         }
 
-        return look(itemName + " has been removed from your inventory.");
+        return look(msg+itemName+" has been removed from your inventory.");
 
     }
 
-    public int getHealth() {
-        return health;
+    public String getHealth() {
+        String msg;
+        if (health <= 100 && health >= 80) {
+            msg = "You're in good health!";
+        } else if (health < 80 && health >= 50) {
+            msg = "You're okay, but could be doing better!";
+        } else if(health < 50 && health >= 30) {
+            msg = "You're a bit shabby, but you are hanging in there!";
+        } else if(health < 30 && health > 10) {
+            msg = "You're very low on health and should seek food and medical supplies immediately!";
+        } else {
+            msg = "You're almost dead! Get food now!";
+        }
+        return "Health: "+health+". "+msg;
+
+
     }
 
-    public void loseHealth(int health) {
+    public String loseHealth(int health) {
         this.health -= health;
-        if(this.health < 0) {
+        if (this.health < 0) {
             this.health = 0;
         }
-}
-    public void gainHealth(int health) {
-        this.health += health;
-        if(this.health > 100) {
-            this.health = 100;
-        }
+        return "You lost " + health + " Health points!";
 
     }
+
+    public String gainHealth(int health) {
+        int oldHealth = this.health;
+        int healthDisplay = health;
+        this.health += health;
+        if (this.health > 100) {
+            this.health = 100;
+            healthDisplay = oldHealth - health;
+        }
+        return "You gained " + healthDisplay + " Health points!";
+
+    }
+
 }
 
 

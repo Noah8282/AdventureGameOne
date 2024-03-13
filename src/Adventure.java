@@ -32,7 +32,7 @@ public class Adventure {
         return player.pickUpItem(input);
     }
     public String dropItem(ArrayList<String> input) {
-        return player.dropItem(input);
+        return player.useItem(input);
     }
 
     public String teleport() {

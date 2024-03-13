@@ -42,7 +42,7 @@ public class UserInterface {
                 default -> {
                     if(input.startsWith("pickup")) {
                         print(itemHandling(true));
-                    } else if(input.startsWith("drop")) {
+                    } else if(input.startsWith("drop") || input.startsWith("eat")) {
                         print(itemHandling(false));
                     } else if (!input.equals("exit")) {
                         print("You did not type anything correct. Type help to get instructions.");
@@ -83,7 +83,9 @@ public class UserInterface {
 
     private String itemHandling(boolean pickUp) {
         ArrayList<String> splittedPickUpInput = new ArrayList<>(List.of(input.trim().split(" ")));
-        splittedPickUpInput.remove(0);
+        if(pickUp == true) {
+            splittedPickUpInput.remove(0);
+        }
         if(pickUp) {
             return adventure.pickUpItem(splittedPickUpInput);
         } else {
