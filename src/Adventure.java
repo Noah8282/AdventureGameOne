@@ -32,7 +32,14 @@ public class Adventure {
         return player.pickUpItem(input);
     }
     public String dropItem(ArrayList<String> input) {
-        return player.useItem(input);
+        return player.dropItem(input);
+    }
+    public String eatItem(Food input) {
+        return player.eatItem(input);
+    }
+
+    public ArrayList<Object> tryEatItem(ArrayList<String> input) {
+        return player.tryEatItem(input);
     }
 
     public String teleport() {

@@ -150,19 +150,14 @@ public class Player {
 
     }
 
-    public String useItem(ArrayList<String> input) {
-        String msg = "";
+    public String dropItem(ArrayList<String> input) {
         String itemName = "";
         ArrayList<Item> inventoryCopy = new ArrayList<>(inventory);
         for (String inputString : input) {
             for (Item item : inventoryCopy) {
                 if (item.getShortName().equalsIgnoreCase(inputString)) {
                     itemName = item.getLongName();
-                    if(input.get(0).equalsIgnoreCase("eat") && item instanceof Food) {
-                        msg = gainHealth(((Food) item).getHealthPoints())+" ";
-                    } else {
-                        currentRoom.addItem(item);
-                    }
+                    currentRoom.addItem(item);
                     inventory.remove(item);
                     break;
                 }
@@ -173,7 +168,44 @@ public class Player {
             return "You do not have such and item in your inventory.";
         }
 
-        return look(msg+itemName+" has been removed from your inventory.");
+        return look(itemName + " has been removed from your inventory.");
+
+    }
+
+
+    public String eatItem(Food foodItem) {
+        String itemName = foodItem.getLongName();
+        String msg = setHealth(foodItem.getHealthPoints()) + " ";
+        inventory.remove(foodItem);
+        return look(msg + itemName + " has been removed from your inventory.");
+
+    }
+
+    public ArrayList<Object> tryEatItem(ArrayList<String> input) {
+        String itemName = "";
+        ArrayList<Object> returnParameters = new ArrayList<>();
+        for (String inputString : input) {
+            for (Item item : inventory) {
+                if (item.getShortName().equalsIgnoreCase(inputString) && item instanceof Food) {
+                    itemName = item.getLongName();
+                    if (((Food) item).getHealthPoints() < 0) {
+                        returnParameters.add(0, itemName+" seems it might be poisonous. Are you sure you want to consume it?");
+                        returnParameters.add(1, true);
+                        returnParameters.add(2, item);
+                    } else {
+                        returnParameters.add(0, eatItem((Food) item));
+                        returnParameters.add(1, false);
+                    }
+                    break;
+                }
+            }
+        }
+
+        if (itemName.isBlank()) {
+            returnParameters.add(0, "You do not have such a food item in your inventory.");
+            returnParameters.add(1,false);
+        }
+        return returnParameters;
 
     }
 
@@ -183,38 +215,36 @@ public class Player {
             msg = "You're in good health!";
         } else if (health < 80 && health >= 50) {
             msg = "You're okay, but could be doing better!";
-        } else if(health < 50 && health >= 30) {
+        } else if (health < 50 && health >= 30) {
             msg = "You're a bit shabby, but you are hanging in there!";
-        } else if(health < 30 && health > 10) {
+        } else if (health < 30 && health > 10) {
             msg = "You're very low on health and should seek food and medical supplies immediately!";
         } else {
             msg = "You're almost dead! Get food now!";
         }
-        return "Health: "+health+". "+msg;
+        return "Health: " + health + ". " + msg;
 
 
     }
 
-    public String loseHealth(int health) {
-        this.health -= health;
-        if (this.health < 0) {
-            this.health = 0;
-        }
-        return "You lost " + health + " Health points!";
-
-    }
-
-    private String gainHealth(int health) {
-        int oldHealth = this.health;
+    private String setHealth(int health) {
         int healthDisplay = health;
         this.health += health;
         if (this.health > 100) {
+            healthDisplay = health - (this.health % 100);
             this.health = 100;
-            healthDisplay = oldHealth - health;
         }
-        return "You gained " + healthDisplay + " Health points!";
+        if (health > 0) {
+            return "You gained " + healthDisplay + " Health points!";
+
+        } else if (health < 0) {
+            return "You lost " + Math.abs(health) + " Health points!";
+        } else {
+            return "This item didn't seem to give you any health";
+        }
 
     }
+
 
 }
 

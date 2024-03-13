@@ -20,7 +20,7 @@ public class Food extends Item {
 
     private int setHealthRandom() {
         Random rn = new Random();
-        double num = rn.nextInt(3, 5);
+        double num = rn.nextInt(10, 100);
 
         if (num % 10 < 5) {
             return (int) Math.floor(num / 5) * 5;

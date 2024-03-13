@@ -41,10 +41,8 @@ public class UserInterface {
                 case "inv","inventory","i" -> print(adventure.getInv());
                 case "health", "get health" -> print(adventure.getHealth());
                 default -> {
-                    if(input.startsWith("pickup")) {
-                        print(itemHandling(true));
-                    } else if(input.startsWith("drop") || input.startsWith("eat")) {
-                        print(itemHandling(false));
+                    if(input.startsWith("pickup") || input.startsWith("drop") || input.startsWith("eat")) {
+                        print(itemHandling());
                     } else if (!input.equals("exit")) {
                         print("You did not type anything correct. Type help to get instructions.");
                     }
@@ -82,16 +80,38 @@ public class UserInterface {
         return adventure.unLock(splittedUnlockInput[1]);
     }
 
-    private String itemHandling(boolean pickUp) {
+    private String itemHandling() {
         ArrayList<String> splittedPickUpInput = new ArrayList<>(List.of(input.trim().split(" ")));
-        if(pickUp == true) {
-            splittedPickUpInput.remove(0);
-        }
-        if(pickUp) {
+        String startsWith = splittedPickUpInput.get(0);
+        splittedPickUpInput.remove(0);
+        if(startsWith.equalsIgnoreCase("pickup")) {
             return adventure.pickUpItem(splittedPickUpInput);
-        } else {
+        } else if(startsWith.equalsIgnoreCase("drop")) {
             return adventure.dropItem(splittedPickUpInput);
+        } else if(startsWith.equalsIgnoreCase("eat")) {
+            ArrayList<Object> eatReturnParameters = adventure.tryEatItem(splittedPickUpInput);
+            if((boolean)eatReturnParameters.get(1)) {
+                String msg = "";
+                while(msg.isBlank()) {
+                    print((String)eatReturnParameters.get(0));
+                    input = getInput();
+                    msg = switch (input) {
+                        case "yes" -> adventure.eatItem((Food)eatReturnParameters.get(2));
+                        case "no" -> "You did not eat the food item";
+                        default -> "";
+                    };
+                    if(msg.isBlank()) {
+                        print("I did not understand that input. Please try again");
+                    }
+                }
+                return msg;
+
+            }
+            return (String)eatReturnParameters.get(0);
+
+
         }
+        return "How did we get here?";
 
     }
 
