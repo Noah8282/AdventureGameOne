@@ -9,9 +9,11 @@ public class Player {
     private Room lastTeleport;
     private AudioPlayer wavPlayer;
     private ArrayList<Item> inventory;
+    private int health;
 
     //Constructor
     public Player(Room firstRoom, AudioPlayer wavPlayer) {
+        health = 100;
         this.wavPlayer = wavPlayer;
         lockChecked = new HashSet<>();
         visited = new HashSet<>();
@@ -138,11 +140,11 @@ public class Player {
 
     public String getInv() {
         StringBuilder invString = new StringBuilder();
-        if(inventory.isEmpty()) {
+        if (inventory.isEmpty()) {
             return "Your inventory is empty.";
         }
         for (Item item : inventory) {
-            invString.append("- "+item.getLongName()+"\n");
+            invString.append("- " + item.getLongName() + "\n");
         }
         return invString.toString();
 
@@ -153,7 +155,7 @@ public class Player {
         ArrayList<Item> inventoryCopy = new ArrayList<>(inventory);
         for (String inputString : input) {
             for (Item item : inventoryCopy) {
-                if(item.getShortName().equalsIgnoreCase(inputString)) {
+                if (item.getShortName().equalsIgnoreCase(inputString)) {
                     itemName = item.getLongName();
                     inventory.remove(item);
                     currentRoom.addItem(item);
@@ -162,19 +164,32 @@ public class Player {
             }
         }
 
-        if(itemName.isBlank()) {
+        if (itemName.isBlank()) {
             return "You do not have such and item in your inventory.";
         }
 
-        return look(itemName+" has been removed from your inventory.");
+        return look(itemName + " has been removed from your inventory.");
 
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public void loseHealth(int health) {
+        this.health -= health;
+        if(this.health < 0) {
+            this.health = 0;
+        }
 }
+    public void gainHealth(int health) {
+        this.health += health;
+        if(this.health > 100) {
+            this.health = 100;
+        }
 
-
-
-
+    }
+}
 
 
 

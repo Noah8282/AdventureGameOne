@@ -9,7 +9,7 @@ public class AudioPlayer {
     String filePath = "/resources/audio/audio";
     HashMap<Room, String> audioFilePaths;
     Clip clip;
-    private boolean musicEnabled = false;
+    private boolean musicEnabled = true;
     private Room currentRoom;
 
     public AudioPlayer(Room[] roomList) {
@@ -29,7 +29,6 @@ public class AudioPlayer {
             try (InputStream is = getClass().getResourceAsStream(audioFilePaths.get(room))) {
                 AudioInputStream ais;
                 if (is == null) {
-                    System.out.println("ran");
                     File newFilePath = new File("resources/" + audioFilePaths.get(room));
                     ais = AudioSystem.getAudioInputStream(newFilePath);
                 } else {

@@ -14,17 +14,17 @@ public class Item {
 
     public Item(String longName) {
         this.longName = longName;
-        keywords = new ArrayList<>(List.of("lamp","sword","axe","bow","helmet","chestplate","leggings","boots","chestplate","bone"));
+        keywords = new ArrayList<>(List.of("lamp", "sword", "axe", "bow", "helmet", "chestplate", "leggings", "boots", "chestplate", "bone"));
         String[] wordsInLongName = longName.split(" ");
         for (String kw : keywords) {
             for (int i = 0; i < wordsInLongName.length; i++) {
-                if(wordsInLongName[i].equalsIgnoreCase(kw)) {
+                if (wordsInLongName[i].equalsIgnoreCase(kw)) {
                     shortName = kw;
                 }
             }
         }
 
-        if(shortName.isBlank()) {
+        if (shortName.isBlank()) {
             throw new IllegalStateException("I can't recognise the description. Please define the short- and longName");
         }
 
@@ -37,8 +37,4 @@ public class Item {
     public String getShortName() {
         return shortName;
     }
-
-
-
 }
-
