@@ -38,12 +38,12 @@ public class AudioPlayer {
                 //If inputStream is null, it could not fine the filepath. This usually indicates, that the program
                 //build is being run, and not from the IntelliJ project tree.
                 if (is == null) {
-                    //Makes a file Object instead, as this can access files outside this directory, which audio files
+                    //Makes a file Object instead of InputStream, as this can access files outside this directory, which audio files
                     //are located when in IntelliJ directory tree.
                     File newFilePath = new File("resources/" + audioFilePaths.get(room));
                     ais = AudioSystem.getAudioInputStream(newFilePath);
                 } else {
-                    //BIS is used instead of File object, to avoid mark and reset compilation Exception
+                    //BIS is used to avoid mark and reset compilation Exception when using InputStream
                     BufferedInputStream bis = new BufferedInputStream(is);
                     ais = AudioSystem.getAudioInputStream(bis);
                 }
