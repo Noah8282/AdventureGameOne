@@ -8,7 +8,7 @@ public abstract class Weapons extends Item{
         super(longName);
     }
 
-    public abstract String durability();
+    public abstract String remainingUses();
 
     public abstract String attack();
 
