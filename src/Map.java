@@ -113,7 +113,7 @@ public class Map {
         items.add(new Food( "a ripe banana"));
         items.add(new Food("a loaf of bread"));
 
-        //"steak","pork","apple","beans"
+
     }
 
     public void assignItemsRandomized() {
@@ -128,23 +128,5 @@ public class Map {
 
     }
 
-
-
-    /*public void eatFood(String foodName) {
-        for (Room room : roomList) {
-            ArrayList<Item> roomItems = room.getItems();
-            for (Item item : roomItems) {
-                if (item instanceof Food && item.getLongName().equalsIgnoreCase(foodName)) {
-                    player.eat((Food) item);
-                    roomItems.remove(item);
-                    return;
-                }
-            }
-        }
-
-        System.out.println("No such food item found in the room.");
-
-
-    }*/
 
 }
