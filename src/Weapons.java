@@ -1,16 +1,38 @@
 public abstract class Weapons extends Item{
 
-    public Weapons(String shortName, String longName, int damageMultiplier) {
+    private int damage;
+    private int uses;
+
+    public Weapons(String shortName, String longName, int damage, int uses) {
         super(shortName, longName);
+        this.damage = damage;
+        this.uses = uses;
     }
 
-    public Weapons(String longName, int damageMultiplier) {
+    public Weapons(String longName, int damage, int uses) {
         super(longName);
+        this.damage = damage;
+        this.uses = uses;
     }
 
-    public abstract String remainingUses();
+    public int getDamage() {
+        return damage;
+    }
 
-    public abstract String attack();
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+
+    public void setUses(int uses) {
+        this.uses = uses;
+    }
+
+    public int getUses() {
+        return uses;
+    }
+
+    public abstract String useWeapon();
 
 
 }
