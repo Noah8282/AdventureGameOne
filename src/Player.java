@@ -123,27 +123,71 @@ public class Player {
     }
 
     public String pickUpItem(ArrayList<String> input) {
+        boolean wasWeapon = false;
+        ArrayList<Weapons> pickedUpWeapons = new ArrayList<>();
         int beforePickUpInvSize = inventory.size();
         ArrayList<Item> itemsInCurrentRoom = new ArrayList<>(currentRoom.getItems());
         StringBuilder msg = new StringBuilder();
         for (Item item : itemsInCurrentRoom) {
-            for (String inputString : input) {
-                if (inputString.equalsIgnoreCase(item.getShortName())) {
-                    inventory.add(item);
-                    currentRoom.removeItem(item);
-                    if(equipped == null && item instanceof Weapons) {
+            wasWeapon = item instanceof Weapons;
+            if (input.contains(item.getShortName())) {
+                inventory.add(item);
+                currentRoom.removeItem(item);
+                if (wasWeapon) {
+                    pickedUpWeapons.add((Weapons) item);
+                    if (equipped == null) {
                         equipped = (Weapons) item;
-                        msg.append(item.getLongName()+" has automatically been equipped!\n");
+                        msg.append(item.getLongName() + " has automatically been equipped!\n");
                     }
                 }
             }
+
         }
+
+        //Checks if the inventory before pickup is equal to the inventory size. If yes, no item was picked up and will be printed.
         if (beforePickUpInvSize == inventory.size()) {
             msg.setLength(0);
             msg.append("The item you wished to pickup could not be found. Please try again");
         } else {
             msg.append("Item was successfully added to your inventory!");
         }
+
+        //System adds the remaningUses of a found weapon to an existing weapon, if it is a duplicate. Therefor duplicate
+        //Weapons works as found ammo instead.
+        //Checks if the picked up item was an instance of the Weapons class.
+        if (wasWeapon) {
+            //Makes a queue of the inventory list.
+            Queue<Item> inventoryQueue = new LinkedList<>(inventory);
+            //Keeps looping while there are still items in the queue.
+            while (!inventoryQueue.isEmpty()) {
+                //Polls the next item from the queue.
+                Item currentCheck = inventoryQueue.poll();
+                //Checks if the item is a Weapon. If not skip.
+                if (currentCheck instanceof Weapons) {
+                    //Loops through the whole inventory to match with the item in the queue.
+                    for (Weapons weapons : pickedUpWeapons) {
+                        //Checks if the item in the queue has same HashCode as the item in the inventory. If yes skip as it is the exact
+                        //same item, and not a duplicate. It checks if the item in the inventory is an instance of Weapons. If no skip.
+                        //It then checks if the Weapon from the inventory, and the Weapon from the queue, has the same name. If no the skip.
+                        //If all is true, it is a duplicate.
+                        if ((currentCheck != weapons) && (weapons.getShortName().equals(currentCheck.getShortName()))) {
+                            //Variable that adds together the uses of both items.
+                            int addedUses = (((Weapons) currentCheck).getRemainingUses()) + (weapons.getRemainingUses());
+                            //Sets the added uses to the remaining uses of the item in the queue.
+                            ((Weapons) currentCheck).setRemainingUses(addedUses);
+                            //Removes the current message.
+                            msg.setLength(0);
+                            //Sets new message to display picked up ammo.
+                            msg.append("You successfully picked up "+weapons.getRemainingUses()+" for the"+currentCheck.getLongName());
+                            //Removes the duplicate from the inventory.
+                            inventory.remove(weapons);
+                        }
+                    }
+                }
+            }
+        }
+
+        //Parses the message into the look method for displaying.
         return look(msg.toString());
     }
 
@@ -162,16 +206,15 @@ public class Player {
     public String dropItem(ArrayList<String> input) {
         String itemName = "";
         ArrayList<Item> inventoryCopy = new ArrayList<>(inventory);
-        for (String inputString : input) {
-            for (Item item : inventoryCopy) {
-                if (item.getShortName().equalsIgnoreCase(inputString)) {
-                    itemName = item.getLongName();
-                    currentRoom.addItem(item);
-                    inventory.remove(item);
-                    break;
-                }
+        for (Item item : inventoryCopy) {
+            if (input.contains(item.getShortName())) {
+                itemName = item.getLongName();
+                currentRoom.addItem(item);
+                inventory.remove(item);
+                break;
             }
         }
+
 
         if (itemName.isBlank()) {
             return "You do not have such and item in your inventory.";
@@ -193,25 +236,25 @@ public class Player {
     public ArrayList<Object> tryEatItem(ArrayList<String> input) {
         String itemName = "";
         ArrayList<Object> returnParameters = new ArrayList<>();
-            for (Item item : inventory) {
-                if (input.contains(item.getShortName()) && item instanceof Food) {
-                    itemName = item.getLongName();
-                    if (((Food) item).getHealthPoints() < 0) {
-                        returnParameters.add(0, itemName+" seems it might be poisonous. Are you sure you want to consume it?");
-                        returnParameters.add(1, true);
-                        returnParameters.add(2, item);
-                    } else {
-                        returnParameters.add(0, eatItem((Food) item));
-                        returnParameters.add(1, false);
-                    }
-                    break;
+        for (Item item : inventory) {
+            if (input.contains(item.getShortName()) && item instanceof Food) {
+                itemName = item.getLongName();
+                if (((Food) item).getHealthPoints() < 0) {
+                    returnParameters.add(0, itemName + " seems it might be poisonous. Are you sure you want to consume it?");
+                    returnParameters.add(1, true);
+                    returnParameters.add(2, item);
+                } else {
+                    returnParameters.add(0, eatItem((Food) item));
+                    returnParameters.add(1, false);
                 }
+                break;
             }
+        }
 
 
         if (itemName.isBlank()) {
             returnParameters.add(0, "You do not have such a food item in your inventory.");
-            returnParameters.add(1,false);
+            returnParameters.add(1, false);
         }
         return returnParameters;
 
@@ -236,9 +279,8 @@ public class Player {
     }
 
     public String equipWeapon(ArrayList<String> input) {
-
-        for(Item item : inventory) {
-            if(input.contains(item.getShortName()) && item instanceof Weapons) {
+        for (Item item : inventory) {
+            if (input.contains(item.getShortName()) && item instanceof Weapons) {
                 equipped = (Weapons) item;
                 return item.getLongName() + " has been equipped!";
             }
@@ -264,11 +306,6 @@ public class Player {
         }
 
     }
-
-
-
-
-
 
 
 }
