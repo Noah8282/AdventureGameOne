@@ -178,7 +178,7 @@ public class Player {
                             //Removes the current message.
                             msg.setLength(0);
                             //Sets new message to display picked up ammo.
-                            msg.append("You successfully picked up "+weapons.getRemainingUses()+" for the"+currentCheck.getLongName());
+                            msg.append("You successfully picked up and gained "+weapons.getRemainingUses()+" "+ weapons.useName() +" for the"+currentCheck.getLongName());
                             //Removes the duplicate from the inventory.
                             inventory.remove(weapons);
                         }

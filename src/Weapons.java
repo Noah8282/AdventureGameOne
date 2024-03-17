@@ -33,6 +33,7 @@ public abstract class Weapons extends Item{
     }
 
     public abstract String useWeapon();
+    public abstract String useName();
 
 
 }

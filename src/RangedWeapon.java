@@ -1,11 +1,15 @@
 public class RangedWeapon extends Weapons {
+        private final String useName;
+
 
         public RangedWeapon(String shortName, String longName, int damage, int remainingUses) {
                 super(shortName, longName, damage, remainingUses);
+                useName = "ammo";
         }
 
         public RangedWeapon(String longName, int damage, int remainingUses) {
                 super(longName, damage, remainingUses);
+                useName = "ammo";
         }
 
         @Override
@@ -18,5 +22,8 @@ public class RangedWeapon extends Weapons {
                 }
         }
 
-
+        @Override
+        public String useName() {
+                return useName;
+        }
 }
