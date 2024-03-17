@@ -1,18 +1,18 @@
 public abstract class Weapons extends Item{
 
     private int damage;
-    private int uses;
+    private int remainingUses;
 
-    public Weapons(String shortName, String longName, int damage, int uses) {
+    public Weapons(String shortName, String longName, int damage, int remainingUses) {
         super(shortName, longName);
         this.damage = damage;
-        this.uses = uses;
+        this.remainingUses = remainingUses;
     }
 
-    public Weapons(String longName, int damage, int uses) {
+    public Weapons(String longName, int damage, int remainingUses) {
         super(longName);
         this.damage = damage;
-        this.uses = uses;
+        this.remainingUses = remainingUses;
     }
 
     public int getDamage() {
@@ -24,12 +24,12 @@ public abstract class Weapons extends Item{
     }
 
 
-    public void setUses(int uses) {
-        this.uses = uses;
+    public void setRemainingUses(int remainingUses) {
+        this.remainingUses = remainingUses;
     }
 
-    public int getUses() {
-        return uses;
+    public int getRemainingUses() {
+        return remainingUses;
     }
 
     public abstract String useWeapon();

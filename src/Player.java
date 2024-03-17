@@ -10,6 +10,7 @@ public class Player {
     private AudioPlayer wavPlayer;
     private ArrayList<Item> inventory;
     private int health;
+    private Weapons equipped;
 
     //Constructor
     public Player(Room firstRoom, AudioPlayer wavPlayer) {
@@ -22,6 +23,7 @@ public class Player {
         lastTeleport = firstRoom;
         lastDir = "";
         wavPlayer.startAudio(currentRoom);
+        equipped = null;
     }
 
     public String look(String returnMessage) {
@@ -123,19 +125,26 @@ public class Player {
     public String pickUpItem(ArrayList<String> input) {
         int beforePickUpInvSize = inventory.size();
         ArrayList<Item> itemsInCurrentRoom = new ArrayList<>(currentRoom.getItems());
-
+        StringBuilder msg = new StringBuilder();
         for (Item item : itemsInCurrentRoom) {
             for (String inputString : input) {
                 if (inputString.equalsIgnoreCase(item.getShortName())) {
                     inventory.add(item);
                     currentRoom.removeItem(item);
+                    if(equipped == null && item instanceof Weapons) {
+                        equipped = (Weapons) item;
+                        msg.append(item.getLongName()+" has automatically been equipped!\n");
+                    }
                 }
             }
         }
         if (beforePickUpInvSize == inventory.size()) {
-            return look("The item you wished to pickup could not be found. Please try again");
+            msg.setLength(0);
+            msg.append("The item you wished to pickup could not be found. Please try again");
+        } else {
+            msg.append("Item was successfully added to your inventory!");
         }
-        return look("Item was successfully added to your inventory!");
+        return look(msg.toString());
     }
 
     public String getInv() {
@@ -184,9 +193,8 @@ public class Player {
     public ArrayList<Object> tryEatItem(ArrayList<String> input) {
         String itemName = "";
         ArrayList<Object> returnParameters = new ArrayList<>();
-        for (String inputString : input) {
             for (Item item : inventory) {
-                if (item.getShortName().equalsIgnoreCase(inputString) && item instanceof Food) {
+                if (input.contains(item.getShortName()) && item instanceof Food) {
                     itemName = item.getLongName();
                     if (((Food) item).getHealthPoints() < 0) {
                         returnParameters.add(0, itemName+" seems it might be poisonous. Are you sure you want to consume it?");
@@ -199,7 +207,7 @@ public class Player {
                     break;
                 }
             }
-        }
+
 
         if (itemName.isBlank()) {
             returnParameters.add(0, "You do not have such a food item in your inventory.");
@@ -227,6 +235,18 @@ public class Player {
 
     }
 
+    public String equipWeapon(ArrayList<String> input) {
+
+        for(Item item : inventory) {
+            if(input.contains(item.getShortName()) && item instanceof Weapons) {
+                equipped = (Weapons) item;
+                return item.getLongName() + " has been equipped!";
+            }
+        }
+        return "There where no such weapon in your inventory!";
+
+    }
+
     private String setHealth(int health) {
         int healthDisplay = health;
         this.health += health;
@@ -244,6 +264,8 @@ public class Player {
         }
 
     }
+
+
 
 
 

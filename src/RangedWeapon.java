@@ -1,22 +1,22 @@
 public class RangedWeapon extends Weapons {
-        private int remainingUses;
 
-        public RangedWeapon(int remainingUses) {
-                this.remainingUses = remainingUses;
+        public RangedWeapon(String shortName, String longName, int damage, int remainingUses) {
+                super(shortName, longName, damage, remainingUses);
         }
 
+        public RangedWeapon(String longName, int damage, int remainingUses) {
+                super(longName, damage, remainingUses);
+        }
 
         @Override
         public String useWeapon() {
-                if (remainingUses > 0) {
-                        System.out.println("Shooting with RangedWeapon!");
-                        remainingUses--;
+                if (getRemainingUses() > 0) {
+                        setRemainingUses(getRemainingUses()-1);
+                        return "Shooting with RangedWeapon!";
                 } else {
-                        System.out.println("RangedWeapon out of uses!");
+                        return "RangedWeapon out of uses!";
                 }
         }
 
-        public int remainingUses() {
-                return remainingUses;
-        }
+
 }

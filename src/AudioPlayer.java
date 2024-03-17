@@ -13,7 +13,7 @@ public class AudioPlayer {
     //Defines Clip attribute for later use
     Clip clip;
     //Defines boolean for disabling and enabling music.
-    private boolean musicEnabled = true;
+    private boolean musicEnabled = false;
     //Defines Room object for the current room.
     private Room currentRoom;
 
@@ -77,20 +77,12 @@ public class AudioPlayer {
         if (clip != null) {
             //Checks if music is enabled and if the clip is running. If it is not, check if music is enabled, if it is, then
             //start the music. If it isn't always try to stop the music, as music is disabled.
-            if (musicEnabled && clip.isRunning()) {
-                clip.stop();
-            } else if (musicEnabled) {
+            if (musicEnabled && !clip.isRunning()) {
                 clip.start();
             } else {
                 clip.stop();
             }
-        } /*else {
-            return;
         }
-
-        if (clip != null) {
-            clip.isRunning();
-        }*/
     }
 
     public String userToggleMusic() {
