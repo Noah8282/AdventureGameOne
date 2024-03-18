@@ -120,7 +120,7 @@ public class Map {
         items.add(new MeleeWeapon("A rusty iron shovel"));
 
         items.add(new RangedWeapon("A hunters bow", "", "arrows"));
-        items.add(new RangedWeapon("A old AK-47");
+        items.add(new RangedWeapon("A old AK-47"));
         items.add(new RangedWeapon("A factory new Glock-17"));
 
 

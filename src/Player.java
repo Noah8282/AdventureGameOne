@@ -39,7 +39,6 @@ public class Player {
             desc = currentRoom.getShortDesc();
         }
 
-
         StringBuilder roomDescription = new StringBuilder(currentRoom.getName() + ": " + desc);
         ArrayList<Item> roomItems = currentRoom.getItems();
         if (roomItems.isEmpty()) {
@@ -318,6 +317,7 @@ public class Player {
             default -> throw new IllegalStateException("switchDir: Unexpected value: " + dir);
         };
     }
+
 
 
 }
