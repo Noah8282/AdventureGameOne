@@ -2,7 +2,6 @@ import java.util.Random;
 
 public class MeleeWeapon extends Weapon {
     private final String useName;
-    private Random rn;
     public MeleeWeapon(String longName, String shortName, String useName) {
         super(longName, shortName);
         this.useName = useName;

@@ -10,12 +10,12 @@ public abstract class Weapon extends Item{
 
     public Weapon(String longName, String shortName) {
         super(longName, shortName);
-        this.remainingUses = rn.nextInt(MIN_USES,MAX_USES+1);
+        setRandomUses();
     }
 
     public Weapon(String longName) {
         super(longName);
-        this.remainingUses = rn.nextInt(MIN_USES,MAX_USES+1);
+        setRandomUses();
     }
 
     public int getDamage() {
@@ -31,12 +31,18 @@ public abstract class Weapon extends Item{
         this.remainingUses = remainingUses;
     }
 
+    public void setRandomUses() {
+        this.remainingUses = rn.nextInt(MIN_USES,MAX_USES+1);
+    }
+
     public int getRemainingUses() {
         return remainingUses;
     }
 
     public abstract String useWeapon();
     public abstract String getUseName();
+
+
 
 
 }

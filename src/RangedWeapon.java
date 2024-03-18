@@ -20,9 +20,9 @@ public class RangedWeapon extends Weapon {
         public String useWeapon() {
                 if (getRemainingUses() > 0) {
                         setRemainingUses(getRemainingUses()-1);
-                        return "Shooting with RangedWeapon!";
+                        return "Shooting with "+getLongName();
                 } else {
-                        return "RangedWeapon out of uses!";
+                        return "RangedWeapon out of "+useName+"!";
                 }
         }
 

@@ -17,11 +17,9 @@ public class Map {
     private Room room9;
     private Room[] roomList;
     private ArrayList<Item> items;
-
-
     private Random rn;
 
-    public Map() {
+    public Map() throws CloneNotSupportedException {
         rn = new Random();
         items = new ArrayList<>();
         createRooms();
@@ -120,19 +118,27 @@ public class Map {
         items.add(new MeleeWeapon("A rusty iron shovel"));
 
         items.add(new RangedWeapon("A hunters bow", "", "arrows"));
-        items.add(new RangedWeapon("A old AK-47");
+        items.add(new RangedWeapon("A old AK-47"));
         items.add(new RangedWeapon("A factory new Glock-17"));
 
 
 
     }
 
-    public void assignItemsRandomized() {
+    public void assignItemsRandomized() throws CloneNotSupportedException {
         for (Room room : roomList) {
             int count = 0;
             while (count < 5) {
-                if(rn.nextInt(0,3) == 0) {
-                    Item pickedItem = items.get(rn.nextInt(0,items.size()-1));
+                if(rn.nextInt(0,3) != 0) {
+                    Item pickedItem = items.get(rn.nextInt(0,items.size()));
+                    if(pickedItem instanceof Weapon) {
+                        Weapon clonedWeapon = (Weapon)pickedItem.clone();
+                        clonedWeapon.setRandomUses();
+                        room.addItem(clonedWeapon);
+                    } else {
+                        Item clonedItem = (Item)pickedItem.clone();
+                        room.addItem(clonedItem);
+                    }
                 }
                 count++;
             }
