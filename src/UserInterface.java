@@ -12,7 +12,7 @@ public class UserInterface {
 
 
     //CONSTRUCTOR//
-    public UserInterface() {
+    public UserInterface() throws CloneNotSupportedException {
         scanner = new Scanner(System.in);
         scanner.useDelimiter("\n");
         adventure = new Adventure();
@@ -40,6 +40,7 @@ public class UserInterface {
                 case "music" -> print(adventure.userToggleMusic());
                 case "inv", "inventory", "i" -> print(adventure.getInv());
                 case "health", "get health" -> print(adventure.getHealth());
+                case "attack" -> print(adventure.attack());
                 default -> {
                     if (input.startsWith("pickup") || input.startsWith("drop") || input.startsWith("eat") || input.startsWith("equip")) {
                         print(itemHandling());

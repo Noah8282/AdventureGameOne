@@ -117,10 +117,10 @@ public class Player {
         ArrayList<Item> itemsInCurrentRoom = new ArrayList<>(currentRoom.getItems());
         StringBuilder msg = new StringBuilder();
         for (Item item : itemsInCurrentRoom) {
-            if(!wasWeapon) {
-                wasWeapon = item instanceof Weapon;
-            }
             if (input.contains(item.getShortName())) {
+                if(!wasWeapon) {
+                    wasWeapon = item instanceof Weapon;
+                }
                 inventory.add(item);
                 currentRoom.removeItem(item);
                 if (wasWeapon) {
@@ -150,31 +150,46 @@ public class Player {
             Queue<Item> inventoryQueue = new LinkedList<>(inventory);
             //Keeps looping while there are still items in the queue.
             while (!inventoryQueue.isEmpty()) {
+
                 //Polls the next item from the queue.
                 Item currentCheck = inventoryQueue.poll();
                 //Checks if the item is a Weapon. If not skip.
                 if (currentCheck instanceof Weapon) {
+                    ArrayList<Weapon> copyOfPickedUpWeapons = new ArrayList<>(pickedUpWeapons);
+
+
                     //Loops through the whole inventory to match with the item in the queue.
-                    for (Weapon weapon : pickedUpWeapons) {
+                    pickedUpWeapons.remove(currentCheck);
+                    //System.out.println(pickedUpWeapons.size());
+                    int addedUses = ((Weapon) currentCheck).getRemainingUses();
+                    for (Weapon weapon : copyOfPickedUpWeapons) {
                         //Checks if the item in the queue has same HashCode as the item in the inventory. If yes skip as it is the exact
-                        //same item, and not a duplicate. It checks if the item in the inventory is an instance of Weapons. If no skip.
-                        //It then checks if the Weapon from the inventory, and the Weapon from the queue, has the same name. If no the skip.
+                        //same item, and not a duplicate.
+                        //It then checks if the Weapon from the inventory, and the Weapon from the queue, has the same name. If no then skip.
                         //If all is true, it is a duplicate.
                         if ((currentCheck != weapon) && (weapon.getShortName().equals(currentCheck.getShortName()))) {
                             //Variable that adds together the uses of both items.
-                            int addedUses = (((Weapon) currentCheck).getRemainingUses()) + (weapon.getRemainingUses());
+
+                            addedUses += weapon.getRemainingUses();
                             //Sets the added uses to the remaining uses of the item in the queue.
                             ((Weapon) currentCheck).setRemainingUses(addedUses);
-                            //Removes the current message.
-                            msg.setLength(0);
-                            //Sets new message to display picked up ammo.
-                            msg.append("You successfully picked up and gained " + weapon.getRemainingUses() + " " + weapon.getUseName() + " for the" + currentCheck.getLongName());
+
                             //Removes the duplicate from the inventory.
                             inventory.remove(weapon);
+                            pickedUpWeapons.remove(weapon);
+                            inventoryQueue.remove(weapon);
                         }
                     }
+
+                    //Removes the current message.
+                    //Sets new message to display picked up ammo.
+                    if(pickedUpWeapons.size() <= 1) {
+                        msg.append("\nYou successfully picked up and gained " + addedUses + " " + ((Weapon)currentCheck).getUseName() + " for the " + currentCheck.getLongName());
+                    }
                 }
+
             }
+
         }
 
         //Parses the message into the look method for displaying.
@@ -187,14 +202,20 @@ public class Player {
             return "Your inventory is empty.";
         }
         for (Item item : inventory) {
+            String longName = item.getLongName();
             if(item == equipped) {
-                invString.append("Equipped: ");
+                invString.insert(0,". "+((Weapon)item).getUseName()+": "+((Weapon)item).getRemainingUses());
+                invString.insert(0,longName);
+                invString.insert(0,"Equipped: ");
+
+
             } else {
                 invString.append("- ");
+                invString.append(item.getLongName());
             }
-            invString.append(item.getLongName());
 
-            if(item instanceof Weapon) {
+
+            if((item instanceof Weapon) && (item != equipped)) {
                 invString.append(". "+((Weapon)item).getUseName()+": "+((Weapon)item).getRemainingUses());
             }
             invString.append("\n");
@@ -222,6 +243,16 @@ public class Player {
         }
 
         return look(itemName + " has been removed from your inventory.");
+
+    }
+
+    public String attack() {
+
+        if(equipped != null) {
+            return equipped.useWeapon();
+        } else {
+            return "You have no weapon equipped.";
+        }
 
     }
 

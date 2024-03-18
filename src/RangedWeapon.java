@@ -34,11 +34,11 @@ public class RangedWeapon extends Weapon {
                 if (getRemainingUses() > 0) {
                         // Decreasing the amount of ammo after each use
                         setRemainingUses(getRemainingUses()-1);
+                        return "Shooting with "+getLongName();
                         // Returning message for when a ranged weapon shoots
-                        return "Shooting with RangedWeapon!";
                 } else {
-                        // Returning message when the ranged weapon has no ammo left
-                        return "RangedWeapon out of uses!";
+                    // Returning message when the ranged weapon has no ammo left
+                    return "RangedWeapon out of "+useName+"!";
                 }
         }
 

@@ -8,7 +8,7 @@ public class Adventure {
     private AudioPlayer wavPlayer; // En attribut til at holde et objekt af typen AudioPlayer
 
     // Konstruktør der initialiserer attributterne map, player og wavPlayer
-    public Adventure() {
+    public Adventure() throws CloneNotSupportedException {
         map = new Map(); // Opretter et nyt Map objekt
         wavPlayer = new AudioPlayer(map.getRoomList()); // Opretter et nyt AudioPlayer objekt med en liste af rum fra map objektet
         player = new Player(map.getFirstRoom(), wavPlayer); // Opretter et nyt Player objekt med det første rum fra map objektet og wavPlayer objektet
@@ -22,6 +22,10 @@ public class Adventure {
     // Metode til at kigge rundt i det aktuelle rum
     public String look() {
         return player.look();
+    }
+
+    public String attack() {
+        return player.attack();
     }
 
     // Metode til at låse op for en given retning
