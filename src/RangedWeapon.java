@@ -1,15 +1,19 @@
-public class RangedWeapon extends Weapons {
+public class RangedWeapon extends Weapon {
         private final String useName;
 
 
-        public RangedWeapon(String shortName, String longName, int damage, int remainingUses) {
-                super(shortName, longName, damage, remainingUses);
-                useName = "ammo";
-        }
+        public RangedWeapon(String longName, String shortName, String useName) {
+                super(longName, shortName);
+                this.useName = useName;
 
-        public RangedWeapon(String longName, int damage, int remainingUses) {
-                super(longName, damage, remainingUses);
-                useName = "ammo";
+        }
+        public RangedWeapon(String longName) {
+                super(longName);
+                this.useName = "ammo";
+        }
+        public RangedWeapon(String longName, String shortName) {
+                super(shortName, longName);
+                this.useName = "ammo";
         }
 
         @Override
@@ -23,7 +27,7 @@ public class RangedWeapon extends Weapons {
         }
 
         @Override
-        public String useName() {
+        public String getUseName() {
                 return useName;
         }
 }

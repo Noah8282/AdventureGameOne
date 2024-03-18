@@ -59,9 +59,8 @@ public class Adventure {
         return player.teleport();
     }
 
-    // Metode til at lade brugeren skifte musikken
-    public String userToggleMusic() {
-        return wavPlayer.userToggleMusic();
+    public String equipWeapon(ArrayList<String> input) {
+        return player.equipWeapon(input);
     }
 
     // Metode til at få en oversigt over spillerens inventory
@@ -72,6 +71,11 @@ public class Adventure {
     // Metode til at få spillerens helbredstilstand
     public String getHealth() {
         return player.getHealth();
+    }
+
+    // Metode til at lade brugeren skifte musikken
+    public String userToggleMusic() {
+        return wavPlayer.userToggleMusic();
     }
 
 }

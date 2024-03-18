@@ -35,13 +35,13 @@ public class UserInterface {
                 case "help" -> print(menu());
                 case "unlock e", "unlock w", "unlock n", "unlock s" -> print(unlockHandling());
                 case "look" -> print(adventure.look());
-                case "toggle light","toggle","light" -> print(adventure.toggleDark());
+                case "toggle light", "toggle", "light" -> print(adventure.toggleDark());
                 case "xyzzy" -> print(adventure.teleport());
                 case "music" -> print(adventure.userToggleMusic());
-                case "inv","inventory","i" -> print(adventure.getInv());
+                case "inv", "inventory", "i" -> print(adventure.getInv());
                 case "health", "get health" -> print(adventure.getHealth());
                 default -> {
-                    if(input.startsWith("pickup") || input.startsWith("drop") || input.startsWith("eat")) {
+                    if (input.startsWith("pickup") || input.startsWith("drop") || input.startsWith("eat") || input.startsWith("equip")) {
                         print(itemHandling());
                     } else if (!input.equals("exit")) {
                         print("You did not type anything correct. Type help to get instructions.");
@@ -84,30 +84,32 @@ public class UserInterface {
         ArrayList<String> splittedPickUpInput = new ArrayList<>(List.of(input.trim().split(" ")));
         String startsWith = splittedPickUpInput.get(0);
         splittedPickUpInput.remove(0);
-        if(startsWith.equalsIgnoreCase("pickup")) {
+        if (startsWith.equalsIgnoreCase("pickup")) {
             return adventure.pickUpItem(splittedPickUpInput);
-        } else if(startsWith.equalsIgnoreCase("drop")) {
+        } else if (startsWith.equalsIgnoreCase("drop")) {
             return adventure.dropItem(splittedPickUpInput);
-        } else if(startsWith.equalsIgnoreCase("eat")) {
+        } else if (startsWith.equalsIgnoreCase("equip")) {
+            return adventure.equipWeapon(splittedPickUpInput);
+        } else if (startsWith.equalsIgnoreCase("eat")) {
             ArrayList<Object> eatReturnParameters = adventure.tryEatItem(splittedPickUpInput);
-            if((boolean)eatReturnParameters.get(1)) {
+            if ((boolean) eatReturnParameters.get(1)) {
                 String msg = "";
-                while(msg.isBlank()) {
-                    print((String)eatReturnParameters.get(0));
+                while (msg.isBlank()) {
+                    print((String) eatReturnParameters.get(0));
                     input = getInput();
                     msg = switch (input) {
-                        case "yes" -> adventure.eatItem((Food)eatReturnParameters.get(2));
+                        case "yes" -> adventure.eatItem((Food) eatReturnParameters.get(2));
                         case "no" -> "You did not eat the food item";
                         default -> "";
                     };
-                    if(msg.isBlank()) {
+                    if (msg.isBlank()) {
                         print("I did not understand that input. Please try again");
                     }
                 }
                 return msg;
 
             }
-            return (String)eatReturnParameters.get(0);
+            return (String) eatReturnParameters.get(0);
 
 
         }

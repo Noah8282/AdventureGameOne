@@ -10,7 +10,7 @@ public class Player {
     private AudioPlayer wavPlayer;
     private ArrayList<Item> inventory;
     private int health;
-    private Weapons equipped;
+    private Weapon equipped;
 
     //Constructor
     public Player(Room firstRoom, AudioPlayer wavPlayer) {
@@ -111,32 +111,23 @@ public class Player {
         return "xyzzy!\n" + look();
     }
 
-
-    private String revertDir(String dir) {
-        return switch (dir) {
-            case "w" -> "e";
-            case "e" -> "w";
-            case "s" -> "n";
-            case "n" -> "s";
-            default -> throw new IllegalStateException("switchDir: Unexpected value: " + dir);
-        };
-    }
-
     public String pickUpItem(ArrayList<String> input) {
         boolean wasWeapon = false;
-        ArrayList<Weapons> pickedUpWeapons = new ArrayList<>();
+        ArrayList<Weapon> pickedUpWeapons = new ArrayList<>();
         int beforePickUpInvSize = inventory.size();
         ArrayList<Item> itemsInCurrentRoom = new ArrayList<>(currentRoom.getItems());
         StringBuilder msg = new StringBuilder();
         for (Item item : itemsInCurrentRoom) {
-            wasWeapon = item instanceof Weapons;
+            if(!wasWeapon) {
+                wasWeapon = item instanceof Weapon;
+            }
             if (input.contains(item.getShortName())) {
                 inventory.add(item);
                 currentRoom.removeItem(item);
                 if (wasWeapon) {
-                    pickedUpWeapons.add((Weapons) item);
+                    pickedUpWeapons.add((Weapon) item);
                     if (equipped == null) {
-                        equipped = (Weapons) item;
+                        equipped = (Weapon) item;
                         msg.append(item.getLongName() + " has automatically been equipped!\n");
                     }
                 }
@@ -163,24 +154,24 @@ public class Player {
                 //Polls the next item from the queue.
                 Item currentCheck = inventoryQueue.poll();
                 //Checks if the item is a Weapon. If not skip.
-                if (currentCheck instanceof Weapons) {
+                if (currentCheck instanceof Weapon) {
                     //Loops through the whole inventory to match with the item in the queue.
-                    for (Weapons weapons : pickedUpWeapons) {
+                    for (Weapon weapon : pickedUpWeapons) {
                         //Checks if the item in the queue has same HashCode as the item in the inventory. If yes skip as it is the exact
                         //same item, and not a duplicate. It checks if the item in the inventory is an instance of Weapons. If no skip.
                         //It then checks if the Weapon from the inventory, and the Weapon from the queue, has the same name. If no the skip.
                         //If all is true, it is a duplicate.
-                        if ((currentCheck != weapons) && (weapons.getShortName().equals(currentCheck.getShortName()))) {
+                        if ((currentCheck != weapon) && (weapon.getShortName().equals(currentCheck.getShortName()))) {
                             //Variable that adds together the uses of both items.
-                            int addedUses = (((Weapons) currentCheck).getRemainingUses()) + (weapons.getRemainingUses());
+                            int addedUses = (((Weapon) currentCheck).getRemainingUses()) + (weapon.getRemainingUses());
                             //Sets the added uses to the remaining uses of the item in the queue.
-                            ((Weapons) currentCheck).setRemainingUses(addedUses);
+                            ((Weapon) currentCheck).setRemainingUses(addedUses);
                             //Removes the current message.
                             msg.setLength(0);
                             //Sets new message to display picked up ammo.
-                            msg.append("You successfully picked up and gained "+weapons.getRemainingUses()+" "+ weapons.useName() +" for the"+currentCheck.getLongName());
+                            msg.append("You successfully picked up and gained " + weapon.getRemainingUses() + " " + weapon.getUseName() + " for the" + currentCheck.getLongName());
                             //Removes the duplicate from the inventory.
-                            inventory.remove(weapons);
+                            inventory.remove(weapon);
                         }
                     }
                 }
@@ -197,8 +188,19 @@ public class Player {
             return "Your inventory is empty.";
         }
         for (Item item : inventory) {
-            invString.append("- " + item.getLongName() + "\n");
+            if(item == equipped) {
+                invString.append("Equipped: ");
+            } else {
+                invString.append("- ");
+            }
+            invString.append(item.getLongName());
+
+            if(item instanceof Weapon) {
+                invString.append(". "+((Weapon)item).getUseName()+": "+((Weapon)item).getRemainingUses());
+            }
+            invString.append("\n");
         }
+
         return invString.toString();
 
     }
@@ -280,8 +282,8 @@ public class Player {
 
     public String equipWeapon(ArrayList<String> input) {
         for (Item item : inventory) {
-            if (input.contains(item.getShortName()) && item instanceof Weapons) {
-                equipped = (Weapons) item;
+            if (input.contains(item.getShortName()) && item instanceof Weapon) {
+                equipped = (Weapon) item;
                 return item.getLongName() + " has been equipped!";
             }
         }
@@ -307,8 +309,15 @@ public class Player {
 
     }
 
+    private String revertDir(String dir) {
+        return switch (dir) {
+            case "w" -> "e";
+            case "e" -> "w";
+            case "s" -> "n";
+            case "n" -> "s";
+            default -> throw new IllegalStateException("switchDir: Unexpected value: " + dir);
+        };
+    }
+
 
 }
-
-
-

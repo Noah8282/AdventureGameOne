@@ -1,4 +1,7 @@
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Map {
@@ -14,6 +17,7 @@ public class Map {
     private Room room9;
     private Room[] roomList;
     private ArrayList<Item> items;
+
 
     private Random rn;
 
@@ -94,10 +98,8 @@ public class Map {
     }
 
     private void createItems() {
+
         items.add(new Item("A shiny brass lamp"));
-        items.add(new Item("A heavy sword"));
-        items.add(new Item("A rusty axe"));
-        items.add(new Item("A hunters bow"));
         items.add(new Item("A damaged helmet"));
         items.add(new Item("A worn chestplate"));
         items.add(new Item("A pierced set of leggings"));
@@ -113,20 +115,34 @@ public class Map {
         items.add(new Food( "a ripe banana"));
         items.add(new Food("a loaf of bread"));
 
+        items.add(new MeleeWeapon("A rusty axe"));
+        items.add(new MeleeWeapon("A heavy sword"));
+        items.add(new MeleeWeapon("A rusty iron shovel"));
+
+        items.add(new RangedWeapon("A hunters bow", "", "arrows"));
+        items.add(new RangedWeapon("A old AK-47");
+        items.add(new RangedWeapon("A factory new Glock-17"));
+
+
 
     }
 
     public void assignItemsRandomized() {
-        for (int i = 0; i < roomList.length; i++) {
-            for (Item item : items) {
-                if (rn.nextInt(5) == 0) {
-                    roomList[i].addItem(item);
+        for (Room room : roomList) {
+            int count = 0;
+            while (count < 5) {
+                if(rn.nextInt(0,3) == 0) {
+                    Item pickedItem = items.get(rn.nextInt(0,items.size()-1));
                 }
+                count++;
             }
+
         }
 
 
     }
+
+
 
 
 }
