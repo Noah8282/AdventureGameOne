@@ -47,26 +47,32 @@ public class Room {
     }
 
     public String getName() {
+        // Returns the room's names
         return name;
     }
 
     public String getLongDesc() {
+        // Returns the long description of the room
         return longDesc;
     }
 
     public String getShortDesc() {
+        // Returns the short description of the room
         return shortDesc;
     }
 
     public boolean isDark() {
+        // Checks if the room is dark
         return dark;
     }
 
     public void toggleDark() {
+        // Toggles the darkness state of the room
         this.dark = !dark;
     }
 
     public void setNextRoom(String dir, Room room) {
+        // Sets the next room in the direction specified
         switch (dir) {
             case "w" -> {
                 if (west != room) {
@@ -97,6 +103,7 @@ public class Room {
     }
 
     public Room getNextRoom(String dir) {
+        // Also sets the next room in the direction specified
         return switch (dir) {
             case "w" -> west;
             case "e" -> east;
@@ -108,6 +115,7 @@ public class Room {
     }
 
     public void unlockRoom(String dir) {
+        // Unlocks the room in the direction specified
         switch (dir) {
             case "w" -> lockedWest = false;
             case "e" -> lockedEast = false;
@@ -118,6 +126,7 @@ public class Room {
     }
 
     public void lockRoom(String dir) {
+        // Locks the room in the direction specified
         switch (dir) {
             case "w" -> lockedWest = true;
             case "e" -> lockedEast = true;
@@ -128,6 +137,7 @@ public class Room {
     }
 
     public boolean isLocked(String dir) {
+        // CHecks if the room in the specified direction is locked
         return switch (dir) {
             case "w" -> lockedWest;
             case "e" -> lockedEast;
@@ -138,14 +148,17 @@ public class Room {
     }
 
     public void addItem(Item item) {
+        // Adds an item to the room
         items.add(item);
     }
 
     public ArrayList<Item> getItems() {
+        // Return the list of items in the room
         return items;
     }
 
     public void removeItem(Item item) {
+        // Removes an item from the room
         items.remove(item);
     }
 }
