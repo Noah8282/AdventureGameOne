@@ -19,9 +19,9 @@ public class RangedWeapon extends Weapon {
                 this.useName = "ammo";
         }
 
-        // Constructor for RangedWeapon with longName and shortName (reversed)
+        // Constructor for RangedWeapon with longName and shortName
         public RangedWeapon(String longName, String shortName) {
-                // Calling superclass constructor with shortName and longName (reversed order)
+                // Calling superclass constructor with shortName and longName
                 super(shortName, longName);
                 // Default value for useName if not provided
                 this.useName = "ammo";
