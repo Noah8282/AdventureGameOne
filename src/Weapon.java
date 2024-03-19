@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public abstract class Weapon extends Item{
+public abstract class Weapon extends Item {
 
     private int damage;
     private int remainingUses;

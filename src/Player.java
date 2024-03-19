@@ -161,8 +161,10 @@ public class Player {
                     //Loops through the whole inventory to match with the item in the queue.
                     pickedUpWeapons.remove(currentCheck);
                     //System.out.println(pickedUpWeapons.size());
-                    int addedUses = ((Weapon) currentCheck).getRemainingUses();
+                    int addedUses = 0;
+                    int count = 1;
                     for (Weapon weapon : copyOfPickedUpWeapons) {
+
                         //Checks if the item in the queue has same HashCode as the item in the inventory. If yes skip as it is the exact
                         //same item, and not a duplicate.
                         //It then checks if the Weapon from the inventory, and the Weapon from the queue, has the same name. If no then skip.
@@ -172,53 +174,57 @@ public class Player {
 
                             addedUses += weapon.getRemainingUses();
                             //Sets the added uses to the remaining uses of the item in the queue.
-                            ((Weapon) currentCheck).setRemainingUses(addedUses);
 
                             //Removes the duplicate from the inventory.
                             inventory.remove(weapon);
                             pickedUpWeapons.remove(weapon);
                             inventoryQueue.remove(weapon);
+
+                            if(count == copyOfPickedUpWeapons.size()) {
+                                ((Weapon) currentCheck).setRemainingUses((((Weapon) currentCheck).getRemainingUses())+addedUses);
+                                msg.append("\nYou successfully picked up and gained " + addedUses + " " + ((Weapon) currentCheck).getUseName() + " for the " + currentCheck.getLongName());
+                            }
                         }
+                        count++;
                     }
 
-                    //Removes the current message.
-                    //Sets new message to display picked up ammo.
-                    if(pickedUpWeapons.size() <= 1) {
-                        msg.append("\nYou successfully picked up and gained " + addedUses + " " + ((Weapon)currentCheck).getUseName() + " for the " + currentCheck.getLongName());
-                    }
+
                 }
 
             }
 
         }
-
         //Parses the message into the look method for displaying.
         return look(msg.toString());
     }
 
     public String getInv() {
         StringBuilder invString = new StringBuilder();
+        invString.setLength(0);
         if (inventory.isEmpty()) {
             return "Your inventory is empty.";
         }
         for (Item item : inventory) {
             String longName = item.getLongName();
             if(item == equipped) {
+                invString.insert(0,"\n");
                 invString.insert(0,". "+((Weapon)item).getUseName()+": "+((Weapon)item).getRemainingUses());
                 invString.insert(0,longName);
                 invString.insert(0,"Equipped: ");
 
-
             } else {
                 invString.append("- ");
-                invString.append(item.getLongName());
+                invString.append(longName);
+
             }
 
 
             if((item instanceof Weapon) && (item != equipped)) {
                 invString.append(". "+((Weapon)item).getUseName()+": "+((Weapon)item).getRemainingUses());
             }
-            invString.append("\n");
+            if(item != equipped) {
+                invString.append("\n");
+            }
         }
 
         return invString.toString();

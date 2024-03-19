@@ -97,7 +97,7 @@ public class Map {
 
     private void createItems() {
 
-        items.add(new Item("A shiny brass lamp"));
+        /*items.add(new Item("A shiny brass lamp"));
         items.add(new Item("A damaged helmet"));
         items.add(new Item("A worn chestplate"));
         items.add(new Item("A pierced set of leggings"));
@@ -111,14 +111,14 @@ public class Map {
         items.add(new Food("A half can of beans"));
         items.add(new Food("a shiny apple"));
         items.add(new Food( "a ripe banana"));
-        items.add(new Food("a loaf of bread"));
+        items.add(new Food("a loaf of bread"));*/
 
         items.add(new MeleeWeapon("A rusty axe"));
-        items.add(new MeleeWeapon("A heavy sword"));
+        /*items.add(new MeleeWeapon("A heavy sword"));
         items.add(new MeleeWeapon("A rusty iron shovel"));
 
         items.add(new RangedWeapon("A hunters bow", "", "arrows"));
-        items.add(new RangedWeapon("A old AK-47"));
+        items.add(new RangedWeapon("A old AK-47"));*/
         items.add(new RangedWeapon("A factory new Glock-17"));
 
 
