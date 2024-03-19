@@ -110,7 +110,7 @@ public class Map {
         items.add(new Food("A half eaten apple"));
         items.add(new Food("A half can of beans"));
         items.add(new Food("a shiny apple"));
-        items.add(new Food( "a ripe banana"));
+        items.add(new Food("a ripe banana"));
         items.add(new Food("a loaf of bread"));*/
 
         items.add(new MeleeWeapon("A rusty axe"));

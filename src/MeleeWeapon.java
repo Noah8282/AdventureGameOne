@@ -18,7 +18,15 @@ public class MeleeWeapon extends Weapon {
 
     @Override
     public String useWeapon() {
-        return null;
+        if (getRemainingUses() > 0) {
+            // Decreasing the amount of ammo after each use
+            setRemainingUses(getRemainingUses()-10);
+            return "Swinging with "+getLongName();
+            // Returning message for when a ranged weapon shoots
+        } else {
+            // Returning message when the ranged weapon has no ammo left
+            return getLongName()+" out of "+useName+"!";
+        }
     }
 
     @Override

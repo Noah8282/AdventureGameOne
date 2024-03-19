@@ -7,8 +7,8 @@ public class UserInterface {
 
     //ATTRIBUTES//
     private String input;
-    private Adventure adventure;
-    Scanner scanner;
+    private final Adventure adventure;
+    private Scanner scanner;
 
 
     //CONSTRUCTOR//
