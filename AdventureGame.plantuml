@@ -1,0 +1,172 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Adventure {
+  - wavPlayer: AudioPlayer
+  - player: Player
+  - map: Map
+  + dropItem(ArrayList<String>): String
+  + equipWeapon(ArrayList<String>): String
+  + look(): String
+  + toggleDark(): String
+  + getHealth(): String
+  + pickUpItem(ArrayList<String>): String
+  + attack(): String
+  + tryEatItem(ArrayList<String>): ArrayList<Object>
+  + getInv(): String
+  + eatItem(Food): String
+  + userToggleMusic(): String
+  + unLock(String): String
+  + teleport(): String
+  + goDirection(String): String
+}
+class AudioPlayer {
+  ~ filePath: String
+  ~ audioFilePaths: HashMap<Room, String>
+  ~ clip: Clip
+  - musicEnabled: boolean
+  - currentRoom: Room
+  + toggleAudio(): void
+  + userToggleMusic(): String
+  + startAudio(Room): void
+}
+class Food {
+  - healthPoints: int
+  + getHealthPoints(): int
+  - setHealthRandom(): int
+}
+class Item {
+  - keywords: ArrayList<String>
+  - longName: String
+  - shortName: String
+  + getShortName(): String
+  + getLongName(): String
+  + clone(): Object
+  - searchKeyWords(): String?
+}
+class Main {
+  + main(String[]): void
+}
+class Map {
+  - room6: Room
+  - room9: Room
+  - room2: Room
+  - room3: Room
+  - room5: Room
+  - rn: Random
+  - room4: Room
+  - room8: Room
+  - roomList: Room[]
+  - room1: Room
+  - room7: Room
+  - items: ArrayList<Item>
+  - createItems(): void
+  + getFirstRoom(): Room
+  - createRooms(): void
+  - randomizeLocks(): void
+  + assignItemsRandomized(): void
+  - setRoomConnections(): void
+  + getRoomList(): Room[]
+  - randomizeDark(): void
+}
+class MeleeWeapon {
+  - useName: String
+  + useWeapon(): String
+  + getUseName(): String
+}
+class Player {
+  - lastDir: String
+  - visited: Set<Room>
+  - equipped: Weapon
+  - lockChecked: Set<Room>
+  - wavPlayer: AudioPlayer
+  - currentRoom: Room
+  - lastTeleport: Room
+  - health: int
+  - inventory: ArrayList<Item>
+  + goDirection(String): String
+  + look(String): String
+  + attack(): String
+  + tryEatItem(ArrayList<String>): ArrayList<Object>
+  + getHealth(): String
+  + getInv(): String
+  + dropItem(ArrayList<String>): String
+  + eatItem(Food): String
+  - revertDir(String): String
+  + equipWeapon(ArrayList<String>): String
+  + toggleDark(): String
+  + look(): String
+  + pickUpItem(ArrayList<String>): String
+  - setHealth(int): String
+  + unLock(String): String
+  + teleport(): String
+}
+class RangedWeapon {
+  - useName: String
+  + getUseName(): String
+  + useWeapon(): String
+}
+class Room {
+  - dark: boolean
+  - lockedEast: boolean
+  - shortDesc: String
+  - items: ArrayList<Item>
+  - south: Room
+  - name: String
+  - north: Room
+  - west: Room
+  - lockedWest: boolean
+  - longDesc: String
+  - lockedSouth: boolean
+  - description: String
+  - east: Room
+  - lockedNorth: boolean
+  + removeItem(Item): void
+  + toggleDark(): void
+  + isLocked(String): boolean
+  + getShortDesc(): String
+  + setNextRoom(String, Room): void
+  + getName(): String
+  + unlockRoom(String): void
+  + isDark(): boolean
+  + getItems(): ArrayList<Item>
+  + getNextRoom(String): Room
+  + addItem(Item): void
+  + lockRoom(String): void
+  + getLongDesc(): String
+}
+class UserInterface {
+  - input: String
+  - adventure: Adventure
+  - scanner: Scanner
+  - print(String): void
+  - unlockHandling(): String
+  - getInput(): String
+  - itemHandling(): String
+  - asciiStart(): String
+  + startUI(): void
+  - menu(): String
+}
+class Weapon {
+  - rn: Random
+  - MIN_USES: int
+  - remainingUses: int
+  - damage: int
+  - MAX_USES: int
+  + setRemainingUses(int): void
+  + getRemainingUses(): int
+  + useWeapon(): String
+  + setRandomUses(): void
+  + getDamage(): int
+  + setDamage(int): void
+  + getUseName(): String
+}
+
+Food           -[#000082,plain]-^  Item          
+MeleeWeapon    -[#000082,plain]-^  Weapon        
+RangedWeapon   -[#000082,plain]-^  Weapon        
+Weapon         -[#000082,plain]-^  Item          
+@enduml
