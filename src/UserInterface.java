@@ -9,6 +9,7 @@ public class UserInterface {
     private String input;
     private final Adventure adventure;
     private final Scanner scanner;
+    private static boolean gameRunning;
 
 
     //CONSTRUCTOR//
@@ -16,6 +17,7 @@ public class UserInterface {
         scanner = new Scanner(System.in);
         scanner.useDelimiter("\n");
         adventure = new Adventure();
+        gameRunning = true;
         print(asciiStart());
         print(menu());
         print(adventure.look());
@@ -40,16 +42,16 @@ public class UserInterface {
                 case "music" -> print(adventure.userToggleMusic());
                 case "inv", "inventory", "i" -> print(adventure.getInv());
                 case "health", "get health" -> print(adventure.getHealth());
-                case "attack" -> print("s");
+                case "exit" -> { print("The game has ended"); gameRunning = false; }
                 default -> {
-                    if (input.startsWith("pickup") || input.startsWith("drop") || input.startsWith("eat") || input.startsWith("equip")) {
+                    if (input.startsWith("pickup") || input.startsWith("drop") || input.startsWith("eat") || input.startsWith("equip") || input.startsWith("attack")) {
                         print(itemHandling());
-                    } else if (!input.equals("exit")) {
+                    } else {
                         print("You did not type anything correct. Type help to get instructions.");
                     }
                 }
             }
-        } while (!input.equals("exit"));
+        } while (gameRunning);
     }
 
     //Print method. Does System.out.println. Method to avoid doing sout every print statement.
@@ -65,6 +67,9 @@ public class UserInterface {
                 Go West/West/W: Go the the room in the western direction
                 Go East/East/E: Go the the room in the northern direction
                 Help: Get a list of instructions and commands
+                Attack: (name of enemy): Attack an enemy. Type just "Attack" to attack closest enemy.
+                Eat (name of food item): Eat a food item and gain health... probably.
+                Equip (Name of weapon): Equip a weapon from your inventory.
                 Look: Get name and description of the room you are in.
                 Unlock w/e/n/s: Unlock a door
                 Toggle: Switch the light on/off (toggle the light)
@@ -85,13 +90,15 @@ public class UserInterface {
         ArrayList<String> splittedPickUpInput = new ArrayList<>(List.of(input.trim().split(" ")));
         String startsWith = splittedPickUpInput.get(0);
         splittedPickUpInput.remove(0);
-        if (startsWith.equalsIgnoreCase("pickup")) {
+        if (startsWith.equals("pickup")) {
             return adventure.pickUpItem(splittedPickUpInput);
-        } else if (startsWith.equalsIgnoreCase("drop")) {
+        } else if (startsWith.equals("drop")) {
             return adventure.dropItem(splittedPickUpInput);
-        } else if (startsWith.equalsIgnoreCase("equip")) {
+        } else if (startsWith.equals("equip")) {
             return adventure.equipWeapon(splittedPickUpInput);
-        } else if (startsWith.equalsIgnoreCase("eat")) {
+        } else if(startsWith.equals("attack")) {
+            return adventure.attack(splittedPickUpInput);
+        } else if (startsWith.equals("eat")) {
             ArrayList<Object> eatReturnParameters = adventure.tryEatItem(splittedPickUpInput);
             if ((boolean) eatReturnParameters.get(1)) {
                 String msg = "";
@@ -133,6 +140,10 @@ public class UserInterface {
 
     private String getInput() {
         return scanner.next().toLowerCase().trim();
+    }
+
+    public static void endGame() {
+        gameRunning = false;
     }
 
 

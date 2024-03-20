@@ -1,35 +1,17 @@
 public class MeleeWeapon extends Weapon {
-    private final String useName;
     public MeleeWeapon(String longName, String shortName, String useName) {
-        super(longName, shortName);
-        this.useName = useName;
+        super(longName, shortName, 10);
+        setUseName(useName);
 
     }
     public MeleeWeapon(String longName) {
-        super(longName);
-        this.useName = "durability";
+        super(longName, 10);
+        setUseName("durability");
     }
     public MeleeWeapon(String longName, String shortName) {
-        super(longName, shortName);
-        useName = "durability";
+        super(longName, shortName, 10);
+        setUseName("durability");
     }
 
-    @Override
-    public String useWeapon(Character enemy) {
-        if (getRemainingUses() > 0) {
-            // Decreasing the amount of ammo after each use
-            setRemainingUses(getRemainingUses()-10);
-            return "Swinging with "+getLongName();
-            // Returning message for when a ranged weapon shoots
-        } else {
-            // Returning message when the ranged weapon has no ammo left
-            return getLongName()+" out of "+useName+"!";
-        }
-    }
-
-    @Override
-    public String getUseName() {
-        return useName;
-    }
 
 }

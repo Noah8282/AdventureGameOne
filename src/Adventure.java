@@ -24,8 +24,8 @@ public class Adventure {
         return player.look();
     }
 
-    public String attack(Character enemy) {
-        return player.attack(enemy);
+    public String attack(ArrayList<String> input) {
+        return player.attack(input);
     }
 
     // Metode til at låse op for en given retning
@@ -81,5 +81,7 @@ public class Adventure {
     public String userToggleMusic() {
         return wavPlayer.userToggleMusic();
     }
+
+
 
 }

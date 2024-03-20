@@ -30,20 +30,21 @@ public class Map {
         randomizeLocks();
         randomizeDark();
         createItems();
+        createEnemies();
         assignItemsRandomized();
         assignEnemyRandomized();
     }
 
     private void createRooms() {
-        room1 = new Room(1, "Room with no distinct features, except two doors", "You wake up in a strange room. It has no distinct features, except two doors");
-        room2 = new Room(2, "Bright Room with two doors", "As you enter this room, you are greeted by an almost blinding light that covers the whole room. This room also has two doors, the one you came through and one ahead of you.");
-        room3 = new Room(3, "A lit room, with two doors", "This room is full of people, and has disco lights flaring everywhere. The room, just like the others, has two doors");
-        room4 = new Room(5, "A very dark room, with two doors", "You are met with a deep darkness as you enter the room. The darkness embraces you and it is almost suffocating. You are just able to make out that there are two doors in this room.");
-        room5 = new Room(5, "A very quiet room, with two door", "You enter an empty room with no sounds. As you close the door behind, no sound is made when it closes. There is only one door in this room and that is the room that you came from.");
-        room6 = new Room(6, "A very smelly room, with two doors", "When you enter the room, one whiff of the place is enough to make you through up. When you quickly eventually hold your breath, you gain clarity and notice the door doors that a present in the room.");
-        room7 = new Room(7, "A slightly dark room, with two doors", "The room is dark when you enter it. While it is not pitch black, the darkness in this room has an uncanny feeling to it. The room also has two doors.");
-        room8 = new Room(8, "A room with no distinct feature, that has two doors", "When you enter this room, a feeling deju vu overcomes you. This room has no distinct features, just like the first room you woke up in. This room, unlike most others, has three doors");
-        room9 = new Room(9, "A lightly lit room, with two doors", "As you enter the room, you are met with a dark room that a small light that lightly illuminates the room. This room also has two doors");
+        room1 = new Room(1, "Room with no distinct features, except two doors", "You wake up in a strange room. It has no distinct features, except two doors",1);
+        room2 = new Room(2, "Bright Room with two doors", "As you enter this room, you are greeted by an almost blinding light that covers the whole room. This room also has two doors, the one you came through and one ahead of you.",2);
+        room3 = new Room(3, "A lit room, with two doors", "This room is full of people, and has disco lights flaring everywhere. The room, just like the others, has two doors",2);
+        room4 = new Room(5, "A very dark room, with two doors", "You are met with a deep darkness as you enter the room. The darkness embraces you and it is almost suffocating. You are just able to make out that there are two doors in this room.",2);
+        room5 = new Room(5, "A very quiet room, with two door", "You enter an empty room with no sounds. As you close the door behind, no sound is made when it closes. There is only one door in this room and that is the room that you came from.",5);
+        room6 = new Room(6, "A very smelly room, with two doors", "When you enter the room, one whiff of the place is enough to make you through up. When you quickly eventually hold your breath, you gain clarity and notice the door doors that a present in the room.",3);
+        room7 = new Room(7, "A slightly dark room, with two doors", "The room is dark when you enter it. While it is not pitch black, the darkness in this room has an uncanny feeling to it. The room also has two doors.",2);
+        room8 = new Room(8, "A room with no distinct feature, that has two doors", "When you enter this room, a feeling deju vu overcomes you. This room has no distinct features, just like the first room you woke up in. This room, unlike most others, has three doors",4);
+        room9 = new Room(9, "A lightly lit room, with two doors", "As you enter the room, you are met with a dark room that a small light that lightly illuminates the room. This room also has two doors",3);
 
         roomList = new Room[]{room1, room2, room3, room4, room5, room6, room7, room8, room9};
 
@@ -144,15 +145,23 @@ public class Map {
         for (Room room : roomList) {
             int count = 0;
             while (count < 5) {
-                if(rn.nextInt(0,3) != 0) {
-                    Item pickedItem = items.get(rn.nextInt(0,items.size()));
-                    if(pickedItem instanceof Weapon) {
-                        Weapon clonedWeapon = (Weapon)pickedItem.clone();
-                        clonedWeapon.setRandomUses();
-                        room.addItem(clonedWeapon);
-                    } else {
-                        Item clonedItem = (Item)pickedItem.clone();
-                        room.addItem(clonedItem);
+                if (room.getId() == 1 && count == 0) {
+                    Weapon firstWeapon = new MeleeWeapon("A rusty iron shovel");
+                    firstWeapon.setDamage(10);
+                    firstWeapon.setRandomUses();
+                    room.addItem(firstWeapon);
+                } else {
+                    if(rn.nextInt(0,3) != 0) {
+                        Item pickedItem = items.get(rn.nextInt(0,items.size()));
+                        if(pickedItem instanceof Weapon) {
+                            Weapon clonedWeapon = (Weapon)pickedItem.clone();
+                            clonedWeapon.setRandomUses();
+                            clonedWeapon.setRandomDamage(room.getDifficulty());
+                            room.addItem(clonedWeapon);
+                        } else {
+                            Item clonedItem = (Item)pickedItem.clone();
+                            room.addItem(clonedItem);
+                        }
                     }
                 }
                 count++;
@@ -192,7 +201,7 @@ public class Map {
 
             } else {
                 //BOSS ROOM
-                boss.setDifficulty(5);
+                boss.setDifficulty(8);
                 roomList[i].addEnemy(boss);
             }
 

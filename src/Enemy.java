@@ -24,9 +24,9 @@ public class Enemy extends Character implements Cloneable {
         weaponList.add(new RangedWeapon("A factory new Glock-17"));
     }
 
-    @Override
     public String attack(Character character) {
-        return null;
+        String msg = getEquipped().useWeapon(character);
+        return msg;
     }
 
     public int getDifficulty() {
@@ -35,20 +35,9 @@ public class Enemy extends Character implements Cloneable {
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
-        //Ændre health.
-        //setHealth();
-        //Ændre weapon damage.
-        //getEquipped().setDamage();
+        setHealth((int)Math.ceil(rn.nextDouble(1)*difficulty*100));
+        getEquipped().setDamage((int)Math.ceil(rn.nextDouble(1))*difficulty*10);
 
-        setHealth(100*rn.nextInt()*difficulty);
-        getEquipped().setDamage(100*rn.nextInt()*difficulty);
-        if(difficulty == 1) {
-            setHealth(rn.nextInt(20,51));
-            getEquipped().setDamage(rn.nextInt(10,40));
-        } else if(difficulty == 2) {
-            setHealth(rn.nextInt(40,81));
-            getEquipped().setDamage(rn.nextInt(30,60));
-        }
     }
 
     public Object clone() throws CloneNotSupportedException

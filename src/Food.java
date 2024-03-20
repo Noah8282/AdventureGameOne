@@ -24,7 +24,7 @@ public class Food extends Item {
     // Metode til at generere et tilfældigt antal sundhedspoint for madobjektet
     private int setHealthRandom() {
         Random rn = new Random(); // Opretter et nyt Random objekt
-        double num = rn.nextInt(10, 100); // Genererer et tilfældigt tal mellem 10 og 100
+        double num = rn.nextInt(-30, 40); // Genererer et tilfældigt tal mellem 10 og 100
 
         // Afrunder tallet til det nærmeste multiplum af 5 og returnerer det som antallet af sundhedspoint
         if (num % 10 < 5) {

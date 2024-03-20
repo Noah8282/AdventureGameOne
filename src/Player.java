@@ -10,6 +10,7 @@ public class Player extends Character {
     private AudioPlayer wavPlayer;
     private ArrayList<Item> inventory;
 
+
     //Constructor
     public Player(Room firstRoom, AudioPlayer wavPlayer) {
         super(100, "Player");
@@ -46,8 +47,17 @@ public class Player extends Character {
                 roomDescription.append("\n- ").append(item.getLongName());
             }
         }
+        ArrayList<Enemy> enemiesInRoom = currentRoom.getEnemies();
+        if(enemiesInRoom.isEmpty()) {
+            roomDescription.append("\nThere are no enemies in this room.");
+        } else {
+            roomDescription.append("\nEnemies in the room:");
+            for (Enemy enemy : enemiesInRoom) {
+                roomDescription.append("\n- ").append(enemy.getName() + " Health: "+enemy.getHealth());
+            }
+        }
 
-        return returnMessage + "\n" + roomDescription.toString();
+        return returnMessage + "\n\n" + roomDescription.toString();
     }
 
     public String look() {
@@ -56,9 +66,17 @@ public class Player extends Character {
 
 
     public String goDirection(String dir) {
-        if (currentRoom.isDark() && (!lastDir.equals(revertDir(dir)) || lastDir.isBlank())) {
-            return look();
+
+
+        if ((!lastDir.equals(revertDir(dir)) || lastDir.isBlank())) {
+            if (currentRoom.isDark()) {
+                return look();
+            } else if(!currentRoom.getEnemies().isEmpty()) {
+                return "The enemies are blocking your path!";
+            }
         }
+
+
 
 
         Room wantedDir = currentRoom.getNextRoom(dir);
@@ -124,7 +142,7 @@ public class Player extends Character {
                     pickedUpWeapons.add((Weapon) item);
                     if (getEquipped() == null) {
                         setEquipped((Weapon) item);
-                        msg.append(item.getLongName() + " has automatically been equipped!\n");
+                        msg.append(item.getLongName() + " has automatically been equipped!");
                     }
                 }
             }
@@ -135,8 +153,8 @@ public class Player extends Character {
         if (beforePickUpInvSize == inventory.size()) {
             msg.setLength(0);
             msg.append("The item you wished to pickup could not be found. Please try again");
-        } else {
-            msg.append("Item was successfully added to your inventory!");
+        } else if(!wasWeapon) {
+            msg.append("Item(s) was successfully added to your inventory!");
         }
 
         //System adds the remaningUses of a found weapon to an existing weapon, if it is a duplicate. Therefor duplicate
@@ -171,7 +189,15 @@ public class Player extends Character {
 
                             addedUses += weapon.getRemainingUses();
                             //Sets the added uses to the remaining uses of the item in the queue.
+                            int currentCheckDamage = ((Weapon) currentCheck).getDamage();
+                            int weaponDamage = weapon.getDamage();
+                            System.out.println("CurrentCheck: "+currentCheckDamage);
+                            System.out.println("Weapon: "+weaponDamage);
 
+                            if(((Weapon) currentCheck).getDamage() <= weapon.getDamage()) {
+                                System.out.println("Run");
+                                ((Weapon) currentCheck).setDamage(weapon.getDamage());
+                            }
                             //Removes the duplicate from the inventory.
                             inventory.remove(weapon);
                             pickedUpWeapons.remove(weapon);
@@ -203,9 +229,14 @@ public class Player extends Character {
         }
         for (Item item : inventory) {
             String longName = item.getLongName();
+            Weapon weapon = null;
+            if(item instanceof Weapon) {
+                weapon = (Weapon) item;
+            }
+
             if(item == getEquipped()) {
                 invString.insert(0,"\n");
-                invString.insert(0,". "+((Weapon)item).getUseName()+": "+((Weapon)item).getRemainingUses());
+                invString.insert(0,". "+weapon.getUseName()+": "+weapon.getRemainingUses() + ". Damage: "+weapon.getDamage());
                 invString.insert(0,longName);
                 invString.insert(0,"Equipped: ");
 
@@ -216,8 +247,8 @@ public class Player extends Character {
             }
 
 
-            if((item instanceof Weapon) && (item != getEquipped())) {
-                invString.append(". "+((Weapon)item).getUseName()+": "+((Weapon)item).getRemainingUses());
+            if(weapon != null && (item != getEquipped())) {
+                invString.append(". "+weapon.getUseName()+": "+weapon.getRemainingUses() + ". Damage: "+weapon.getDamage());
             }
             if(item != getEquipped()) {
                 invString.append("\n");
@@ -249,15 +280,61 @@ public class Player extends Character {
 
     }
 
-    public String attack(Character enemy) {
+    public String attack(ArrayList<String> input) {
+        if(getEquipped() == null) {
+            return "You have no weapon and therefor can't attack";
+        }
 
-        /*if(getEquipped() != null) {
-            return getEquipped().useWeapon();
+        Enemy enemyToAttack = null;
+        ArrayList<Enemy> enemyInCurrentRoom = currentRoom.getEnemies();
+
+        if(enemyInCurrentRoom.isEmpty()) {
+            return "There are no enemies in this room!";
+        }
+
+        if (input.isEmpty()) {
+            enemyToAttack = enemyInCurrentRoom.get(0);
+
         } else {
-            return "You have no weapon equipped.";
-        }*/
-        return null;
+            for (Enemy enemy : enemyInCurrentRoom) {
+                String enemyLowercase = enemy.getName().toLowerCase();
+                for (String inputString : input) {
 
+                    if(enemyLowercase.contains(inputString)) {
+                        enemyToAttack = enemy;
+                    }
+                }
+            }
+        }
+
+        if(enemyToAttack == null) {
+            return "No such enemy was found in the room";
+        }
+
+        StringBuilder msg = new StringBuilder();
+        msg.append(getEquipped().useWeapon(enemyToAttack)+"\n");
+        if(enemyToAttack.getHealth() <= 0) {
+            msg.setLength(0);
+            msg.append(enemyToAttack.getName() + " has died!\n");
+            currentRoom.removeEnemy(enemyToAttack);
+        } else {
+            msg.append(enemyToAttack.attack(this)+"\n");
+        }
+
+        if(getHealth() <= 0) {
+            UserInterface.endGame();
+            msg.append("You died!");
+            return msg.toString();
+        }
+
+        if(currentRoom.getId() == 5 && currentRoom.getEnemies().isEmpty()) {
+            UserInterface.endGame();
+            msg.append("You Win!");
+            return msg.toString();
+        }
+
+
+        return look(msg.toString());
     }
 
 

@@ -31,6 +31,4 @@ public abstract class Character {
         return name;
     }
 
-    public abstract String attack(Character character);
-
 }
