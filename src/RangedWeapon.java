@@ -29,7 +29,7 @@ public class RangedWeapon extends Weapon {
 
         // Overriding the useWeapon method from the parent class
         @Override
-        public String useWeapon() {
+        public String useWeapon(Character enemy) {
                 // Checking if the remaining uses of the weapon is more than 0
                 if (getRemainingUses() > 0) {
                         // Decreasing the amount of ammo after each use

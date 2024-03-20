@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Player {
+public class Player extends Character {
     //Attribute
     private Room currentRoom;
     private Set<Room> lockChecked;
@@ -9,12 +9,10 @@ public class Player {
     private Room lastTeleport;
     private AudioPlayer wavPlayer;
     private ArrayList<Item> inventory;
-    private int health;
-    private Weapon equipped;
 
     //Constructor
     public Player(Room firstRoom, AudioPlayer wavPlayer) {
-        health = 100;
+        super(100, "Player");
         this.wavPlayer = wavPlayer;
         lockChecked = new HashSet<>();
         visited = new HashSet<>();
@@ -23,7 +21,6 @@ public class Player {
         lastTeleport = firstRoom;
         lastDir = "";
         wavPlayer.startAudio(currentRoom);
-        equipped = null;
     }
 
     public String look(String returnMessage) {
@@ -39,7 +36,7 @@ public class Player {
             desc = currentRoom.getShortDesc();
         }
 
-        StringBuilder roomDescription = new StringBuilder(currentRoom.getName() + ": " + desc);
+        StringBuilder roomDescription = new StringBuilder("Room "+currentRoom.getId() + ": " + desc);
         ArrayList<Item> roomItems = currentRoom.getItems();
         if (roomItems.isEmpty()) {
             roomDescription.append("\nThere are no items in this room.");
@@ -125,8 +122,8 @@ public class Player {
                 currentRoom.removeItem(item);
                 if (wasWeapon) {
                     pickedUpWeapons.add((Weapon) item);
-                    if (equipped == null) {
-                        equipped = (Weapon) item;
+                    if (getEquipped() == null) {
+                        setEquipped((Weapon) item);
                         msg.append(item.getLongName() + " has automatically been equipped!\n");
                     }
                 }
@@ -206,7 +203,7 @@ public class Player {
         }
         for (Item item : inventory) {
             String longName = item.getLongName();
-            if(item == equipped) {
+            if(item == getEquipped()) {
                 invString.insert(0,"\n");
                 invString.insert(0,". "+((Weapon)item).getUseName()+": "+((Weapon)item).getRemainingUses());
                 invString.insert(0,longName);
@@ -219,10 +216,10 @@ public class Player {
             }
 
 
-            if((item instanceof Weapon) && (item != equipped)) {
+            if((item instanceof Weapon) && (item != getEquipped())) {
                 invString.append(". "+((Weapon)item).getUseName()+": "+((Weapon)item).getRemainingUses());
             }
-            if(item != equipped) {
+            if(item != getEquipped()) {
                 invString.append("\n");
             }
         }
@@ -252,20 +249,21 @@ public class Player {
 
     }
 
-    public String attack() {
+    public String attack(Character enemy) {
 
-        if(equipped != null) {
-            return equipped.useWeapon();
+        /*if(getEquipped() != null) {
+            return getEquipped().useWeapon();
         } else {
             return "You have no weapon equipped.";
-        }
+        }*/
+        return null;
 
     }
 
 
     public String eatItem(Food foodItem) {
         String itemName = foodItem.getLongName();
-        String msg = setHealth(foodItem.getHealthPoints()) + " ";
+        String msg = setPlayerHealth(foodItem.getHealthPoints()) + " ";
         inventory.remove(foodItem);
         return look(msg + itemName + " has been removed from your inventory.");
 
@@ -298,20 +296,21 @@ public class Player {
 
     }
 
-    public String getHealth() {
+    public String getPlayerHealth () {
         String msg;
-        if (health <= 100 && health >= 80) {
+        int h = getHealth();
+        if (h <= 100 && h >= 80) {
             msg = "You're in good health!";
-        } else if (health < 80 && health >= 50) {
+        } else if (h < 80 && h >= 50) {
             msg = "You're okay, but could be doing better!";
-        } else if (health < 50 && health >= 30) {
+        } else if (h < 50 && h >= 30) {
             msg = "You're a bit shabby, but you are hanging in there!";
-        } else if (health < 30 && health > 10) {
+        } else if (h < 30 && h > 10) {
             msg = "You're very low on health and should seek food and medical supplies immediately!";
         } else {
             msg = "You're almost dead! Get food now!";
         }
-        return "Health: " + health + ". " + msg;
+        return "Health: " + h + ". " + msg;
 
 
     }
@@ -319,7 +318,7 @@ public class Player {
     public String equipWeapon(ArrayList<String> input) {
         for (Item item : inventory) {
             if (input.contains(item.getShortName()) && item instanceof Weapon) {
-                equipped = (Weapon) item;
+                setEquipped((Weapon) item);
                 return item.getLongName() + " has been equipped!";
             }
         }
@@ -327,12 +326,13 @@ public class Player {
 
     }
 
-    private String setHealth(int health) {
+    private String setPlayerHealth(int health) {
         int healthDisplay = health;
-        this.health += health;
-        if (this.health > 100) {
-            healthDisplay = health - (this.health % 100);
-            this.health = 100;
+        setHealth(getHealth()+health);
+        //this.health += health;
+        if (getHealth() > 100) {
+            healthDisplay = health - (getHealth() % 100);
+            setHealth(100);
         }
         if (health > 0) {
             return "You gained " + healthDisplay + " Health points!";

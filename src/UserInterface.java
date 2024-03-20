@@ -8,7 +8,7 @@ public class UserInterface {
     //ATTRIBUTES//
     private String input;
     private final Adventure adventure;
-    private Scanner scanner;
+    private final Scanner scanner;
 
 
     //CONSTRUCTOR//
@@ -40,7 +40,7 @@ public class UserInterface {
                 case "music" -> print(adventure.userToggleMusic());
                 case "inv", "inventory", "i" -> print(adventure.getInv());
                 case "health", "get health" -> print(adventure.getHealth());
-                case "attack" -> print(adventure.attack());
+                case "attack" -> print("s");
                 default -> {
                     if (input.startsWith("pickup") || input.startsWith("drop") || input.startsWith("eat") || input.startsWith("equip")) {
                         print(itemHandling());

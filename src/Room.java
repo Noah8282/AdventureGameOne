@@ -3,11 +3,12 @@ import java.util.ArrayList;
 public class Room {
     private String description;
     private ArrayList<Item> items;
+    private ArrayList<Character> enemies;
 
 
     ////////// ATTRIBUTES //////////
     //Name of the room
-    private String name;
+    private int id;
     //Description of room and rooms contents.
     private String shortDesc;
     private String longDesc;
@@ -30,9 +31,9 @@ public class Room {
 
 
     ////////// CONSTRUCTOR //////////
-    public Room(String name, String shortDesc, String longDesc) {
+    public Room(int id, String shortDesc, String longDesc) {
         items = new ArrayList<>();
-        this.name = name;
+        this.id = id;
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
         east = null;
@@ -46,9 +47,9 @@ public class Room {
         dark = false;
     }
 
-    public String getName() {
+    public int getId() {
         // Returns the room's names
-        return name;
+        return id;
     }
 
     public String getLongDesc() {
@@ -160,5 +161,13 @@ public class Room {
     public void removeItem(Item item) {
         // Removes an item from the room
         items.remove(item);
+    }
+
+    public ArrayList<Character> getEnemies() {
+        return enemies;
+    }
+
+    public void addEnemy(Enemy enemy) {
+        enemies.add(enemy);
     }
 }

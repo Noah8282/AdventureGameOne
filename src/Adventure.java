@@ -24,8 +24,8 @@ public class Adventure {
         return player.look();
     }
 
-    public String attack() {
-        return player.attack();
+    public String attack(Character enemy) {
+        return player.attack(enemy);
     }
 
     // Metode til at låse op for en given retning
@@ -74,7 +74,7 @@ public class Adventure {
 
     // Metode til at få spillerens helbredstilstand
     public String getHealth() {
-        return player.getHealth();
+        return player.getPlayerHealth();
     }
 
     // Metode til at lade brugeren skifte musikken

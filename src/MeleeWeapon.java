@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public class MeleeWeapon extends Weapon {
     private final String useName;
     public MeleeWeapon(String longName, String shortName, String useName) {
@@ -17,7 +15,7 @@ public class MeleeWeapon extends Weapon {
     }
 
     @Override
-    public String useWeapon() {
+    public String useWeapon(Character enemy) {
         if (getRemainingUses() > 0) {
             // Decreasing the amount of ammo after each use
             setRemainingUses(getRemainingUses()-10);

@@ -39,7 +39,7 @@ public abstract class Weapon extends Item {
         return remainingUses;
     }
 
-    public abstract String useWeapon();
+    public abstract String useWeapon(Character character);
     public abstract String getUseName();
 
 
