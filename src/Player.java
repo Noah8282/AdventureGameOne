@@ -316,6 +316,7 @@ public class Player extends Character {
         if(enemyToAttack.getHealth() <= 0) {
             msg.setLength(0);
             msg.append(enemyToAttack.getName() + " has died!\n");
+            currentRoom.addItem(enemyToAttack.getEquipped());
             currentRoom.removeEnemy(enemyToAttack);
         } else {
             msg.append(enemyToAttack.attack(this)+"\n");
