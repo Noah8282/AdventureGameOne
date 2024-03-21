@@ -6,7 +6,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 public class AudioPlayer {
-    String filePath = "/resources/audio/audio";
+    private final String fileSep = File.separator;
+    String filePath = fileSep+"resources"+fileSep+"audio"+fileSep+"audio";
     HashMap<Room, String> audioFilePaths;
     Clip clip;
     private boolean musicEnabled = false;
@@ -29,7 +30,7 @@ public class AudioPlayer {
             try (InputStream is = getClass().getResourceAsStream(audioFilePaths.get(room))) {
                 AudioInputStream ais;
                 if (is == null) {
-                    File newFilePath = new File("resources/" + audioFilePaths.get(room));
+                    File newFilePath = new File("resources"+ fileSep + audioFilePaths.get(room));
                     ais = AudioSystem.getAudioInputStream(newFilePath);
                 } else {
                     BufferedInputStream bis = new BufferedInputStream(is);
