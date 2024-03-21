@@ -210,20 +210,9 @@ public class Map {
 
     }
 
+    //Helper method to assignEnemiesRandomized. Takes a random enemy from the list, clones the instance, and returns it.
     private Enemy getRandomEnemyClone() throws CloneNotSupportedException {
         return (Enemy)enemies.get(rn.nextInt(0,enemies.size())).clone();
 
     }
-
-
-    //Look metoden skal fortælle hvilke enemies der er.
-    //Attack metoden skal virke, kunne angribe nærmeste enemy eller angribe enemy of choice.
-    //Attack hos enemy skal angribe spilleren tilbage, når spilleren selv angriber.
-    //Når enemy dør, skal den drop dens våben.
-    //Når Playeren dør, skal spillet stoppe. Evt. sige at spilleren døde.
-    //Difficulty skal integreres ind i Enemy objektet, og ændre på health og/eller weapon Damage.
-    //Evt. gøre så spilleren ikke kan gå videre i rum, når alle enemies ikke er døde.
-
-
-
 }
