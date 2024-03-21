@@ -3,13 +3,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class UserInterface {
+public class UserInterface extends Adventure {
 
     //ATTRIBUTES//
     private String input;
     private final Adventure adventure;
     private final Scanner scanner;
     private static boolean gameRunning;
+    private final boolean musicEnabled = true;
 
 
     //CONSTRUCTOR//
@@ -21,11 +22,13 @@ public class UserInterface {
         print(asciiStart());
         print(menu());
         print(adventure.look());
-
     }
 
     //METHOD TO START UI AND GAME//
     public void startUI() {
+        if(musicEnabled) {
+            adventure.userToggleMusic();
+        }
         do {
             print("What do you want to do?");
             input = getInput();

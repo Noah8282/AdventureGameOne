@@ -102,12 +102,12 @@ public class Map {
 
     private void createItems() {
 
-        items.add(new Item("A shiny brass lamp"));
+        /*items.add(new Item("A shiny brass lamp"));
         items.add(new Item("A damaged helmet"));
         items.add(new Item("A worn chestplate"));
         items.add(new Item("A pierced set of leggings"));
         items.add(new Item("A shiny pair of boots"));
-        items.add(new Item("A decaying bone"));
+        items.add(new Item("A decaying bone"));*/
         items.add(new Food("A baked potato"));
         items.add(new Food("A raw steak"));
         items.add(new Food("A dry piece of pork"));

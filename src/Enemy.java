@@ -35,7 +35,7 @@ public class Enemy extends Character implements Cloneable {
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
-        setHealth((int)Math.ceil(rn.nextDouble(1)*difficulty*100));
+        setHealth((int)Math.ceil(rn.nextDouble(1)*difficulty*50));
         getEquipped().setDamage((int)Math.ceil(rn.nextDouble(1))*difficulty*10);
 
     }
